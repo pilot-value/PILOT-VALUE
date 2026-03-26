@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <script>(function(){var t=localStorage.getItem('pv-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>新規登録 — PILOT VALUE</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a0c0f;color:#e8edf2;font-family:Inter,'Noto Sans JP',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 20px}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(245,200,66,.05) 0%,transparent 70%);pointer-events:none}
+    [data-theme="light"] body{background:#f3f5f8;color:#0f172a}
+    .auth-card{background:rgba(17,22,32,.95);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px;width:100%;max-width:480px}
+    [data-theme="light"] .auth-card{background:#fff;border-color:rgba(0,0,0,.09);box-shadow:0 8px 40px rgba(0,0,0,.12)}
+    .step-dots{display:flex;gap:8px;justify-content:center;margin-bottom:28px}
+    .step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s,width .3s}
+    .step-dot.active{width:24px;border-radius:4px;background:#f5c842}
+    .step-dot.done{background:rgba(245,200,66,.4)}
+    [data-theme="light"] .step-dot{background:rgba(0,0,0,.12)}
+    .step-title{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+    .step-sub{font-size:.8rem;color:#6b7d93;margin-bottom:24px}
+    .auth-input{width:100%;padding:12px 15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#e8edf2;font-size:.88rem;outline:none;transition:border-color .2s;font-family:inherit}
+    .auth-input:focus{border-color:rgba(245,200,66,.5);background:rgba(255,255,255,.07)}
+    .auth-input::placeholder{color:#6b7d93}
+    [data-theme="light"] .auth-input{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.12);color:#0f172a}
+    [data-theme="light"] .auth-input:focus{border-color:rgba(161,114,0,.4);background:#fff}
+    select.auth-input option{background:#111620;color:#e8edf2}
+    .field-label{font-size:.76rem;color:#9ca3af;margin-bottom:5px;font-weight:600;letter-spacing:.03em}
+    [data-theme="light"] .field-label{color:#64748b}
+    .radio-group{display:flex;gap:8px;flex-wrap:wrap}
+    .radio-chip input{display:none}
+    .radio-chip label{display:inline-flex;align-items:center;padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.1);font-size:.84rem;cursor:pointer;transition:border-color .2s,background .2s;color:#9ca3af}
+    .radio-chip input:checked+label{border-color:rgba(245,200,66,.5);background:rgba(245,200,66,.08);color:#f5c842;font-weight:600}
+    [data-theme="light"] .radio-chip label{border-color:rgba(0,0,0,.12);color:#64748b}
+    [data-theme="light"] .radio-chip input:checked+label{border-color:rgba(161,114,0,.4);background:rgba(161,114,0,.07);color:#a07200}
+    .btn-primary{width:100%;padding:13px;background:linear-gradient(135deg,#f5c842,#f97316);color:#000;border:none;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer;transition:opacity .2s,transform .15s;font-family:inherit}
+    .btn-primary:hover:not(:disabled){opacity:.92;transform:translateY(-1px)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+    .btn-secondary{width:100%;padding:12px;background:rgba(255,255,255,.06);color:#9ca3af;border:1px solid rgba(255,255,255,.1);border-radius:11px;font-weight:600;font-size:.88rem;cursor:pointer;transition:background .2s;font-family:inherit}
+    .btn-secondary:hover{background:rgba(255,255,255,.1);color:#e8edf2}
+    .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);color:#e8edf2;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .2s}
+    .theme-toggle:hover{background:rgba(255,255,255,.13)}
+    [data-theme="light"] .theme-toggle{background:rgba(0,0,0,.06);color:#0f172a;border-color:rgba(0,0,0,.13)}
+    .error-msg{color:#f87171;font-size:.79rem;padding:8px 12px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;display:none;margin-top:4px}
+    .profile-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.25);border-radius:999px;font-size:.73rem;color:#f5c842;font-weight:600;letter-spacing:.04em;margin-bottom:16px}
+    .success-screen{text-align:center;display:none}
+  </style>
+</head>
+<body>
+  <div style="position:fixed;top:16px;right:16px;z-index:10">
+    <button id="theme-toggle" class="theme-toggle" aria-label="テーマ切替"></button>
+  </div>
+  <div style="position:fixed;top:16px;left:16px;z-index:10">
+    <a href="login.html" style="font-size:.82rem;color:#6b7d93;text-decoration:none;display:flex;align-items:center;gap:5px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+      ログインへ
+    </a>
+  </div>
+
+  <div class="auth-card">
+    <div style="text-align:center;margin-bottom:28px">
+      <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" style="height:32px;margin:0 auto"/></a>
+    </div>
+    <div class="step-dots">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step-1">
+      <div class="step-title">アカウントを作成</div>
+      <div class="step-sub">メールアドレスとパスワードを設定してください</div>
+      <form id="step1-form" onsubmit="goStep2(event)" novalidate>
+        <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:16px">
+          <div><div class="field-label">メールアドレス</div><input class="auth-input" type="email" id="s1-email" placeholder="pilot@example.com" autocomplete="email" required/></div>
+          <div><div class="field-label">パスワード（8文字以上）</div><input class="auth-input" type="password" id="s1-pass" placeholder="••••••••" autocomplete="new-password" required minlength="8"/></div>
+          <div><div class="field-label">パスワード（確認）</div><input class="auth-input" type="password" id="s1-pass2" placeholder="••••••••" autocomplete="new-password" required/></div>
+          <div class="error-msg" id="step1-error"></div>
+        </div>
+        <button type="submit" class="btn-primary">次へ → プロフィール設定</button>
+      </form>
+      <div style="text-align:center;margin-top:20px;font-size:.83rem;color:#6b7d93">
+        既にアカウントをお持ちの方は <a href="login.html" style="color:#f5c842;font-weight:700;text-decoration:none">ログイン</a>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step-2" style="display:none">
+      <div class="profile-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        プロフィール登録必須
+      </div>
+      <div class="step-title">プロフィールを設定</div>
+      <div class="step-sub">口コミの信頼性のため必須です（匿名で表示されます）</div>
+      <form id="step2-form" onsubmit="handleSignup(event)" novalidate>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px">
+          <div><div class="field-label">氏名</div><input class="auth-input" type="text" id="s2-name" placeholder="山田 太郎" required/></div>
+          <div>
+            <div class="field-label">性別</div>
+            <div class="radio-group">
+              <div class="radio-chip"><input type="radio" name="gender" id="g-male" value="male"/><label for="g-male">男性</label></div>
+              <div class="radio-chip"><input type="radio" name="gender" id="g-female" value="female"/><label for="g-female">女性</label></div>
+              <div class="radio-chip"><input type="radio" name="gender" id="g-other" value="other"/><label for="g-other">その他</label></div>
+            </div>
+          </div>
+          <div><div class="field-label">生年月日</div><input class="auth-input" type="date" id="s2-birth" required style="color-scheme:dark"/></div>
+          <div>
+            <div class="field-label">居住国</div>
+            <select class="auth-input" id="s2-country" required>
+              <option value="">選択してください</option>
+              <option>日本</option><option>アメリカ</option><option>UAE</option>
+              <option>シンガポール</option><option>香港</option><option>イギリス</option>
+              <option>ドイツ</option><option>フランス</option><option>オーストラリア</option>
+              <option>カナダ</option><option>韓国</option><option>中国</option><option>その他</option>
+            </select>
+          </div>
+          <div><div class="field-label">在籍企業</div><input class="auth-input" type="text" id="s2-company" placeholder="例: ANA、JAL、Emirates" required/></div>
+          <div>
+            <div class="field-label">職位</div>
+            <div class="radio-group">
+              <div class="radio-chip"><input type="radio" name="position" id="p-cap" value="captain"/><label for="p-cap">機長</label></div>
+              <div class="radio-chip"><input type="radio" name="position" id="p-fo" value="fo"/><label for="p-fo">副操縦士</label></div>
+              <div class="radio-chip"><input type="radio" name="position" id="p-cad" value="cadet"/><label for="p-cad">訓練生</label></div>
+            </div>
+          </div>
+          <div class="error-msg" id="step2-error"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button type="submit" class="btn-primary" id="signup-btn">登録を完了する</button>
+          <button type="button" class="btn-secondary" onclick="backToStep1()">← 戻る</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success-screen">
+      <div style="font-size:3rem;margin-bottom:16px">✈️</div>
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px">登録完了！</div>
+      <p style="font-size:.84rem;color:#6b7d93;line-height:1.7;margin-bottom:24px">PILOT VALUEへようこそ。<br>口コミを投稿して年収情報を解放しましょう。</p>
+      <button class="btn-primary" onclick="window.location.href=getRedirect()" style="max-width:240px;margin:0 auto;display:block">サイトへ進む →</button>
+    </div>
+  </div>
+
+  <script>
+    const SB_URL = 'https://vzgmnkrggrwtsrpqndsm.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Z21ua3JnZ3J3dHNycHFuZHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzkwOTcsImV4cCI6MjA5MDAxNTA5N30.wE4cJbqeYGCgn5ZvHd80hYWgQuySKvOMJMbsJWOvmtw';
+    const sb = supabase.createClient(SB_URL, SB_KEY);
+
+    const SUN = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+    const MOON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+    function applyTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('pv-theme',t);const b=document.getElementById('theme-toggle');if(b)b.innerHTML=t==='dark'?SUN:MOON;}
+    applyTheme(localStorage.getItem('pv-theme')||'dark');
+    document.getElementById('theme-toggle').addEventListener('click',function(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');});
+
+    function getRedirect(){ return new URLSearchParams(location.search).get('redirect')||'profile.html'; }
+
+    function goStep2(e) {
+      e.preventDefault();
+      const pass = document.getElementById('s1-pass').value;
+      const pass2= document.getElementById('s1-pass2').value;
+      const errEl= document.getElementById('step1-error');
+      errEl.style.display='none';
+      if(pass.length<8){errEl.textContent='パスワードは8文字以上で設定してください';errEl.style.display='block';return;}
+      if(pass!==pass2){errEl.textContent='パスワードが一致しません';errEl.style.display='block';return;}
+      document.getElementById('step-1').style.display='none';
+      document.getElementById('step-2').style.display='block';
+      document.getElementById('dot-1').classList.replace('active','done');
+      document.getElementById('dot-2').classList.add('active');
+    }
+
+    function backToStep1() {
+      document.getElementById('step-2').style.display='none';
+      document.getElementById('step-1').style.display='block';
+      document.getElementById('dot-2').classList.remove('active');
+      document.getElementById('dot-1').classList.replace('done','active');
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('step2-error');
+      const btn   = document.getElementById('signup-btn');
+      errEl.style.display='none';
+
+      const name     = document.getElementById('s2-name').value.trim();
+      const gender   = document.querySelector('input[name="gender"]:checked');
+      const birth    = document.getElementById('s2-birth').value;
+      const country  = document.getElementById('s2-country').value;
+      const company  = document.getElementById('s2-company').value.trim();
+      const position = document.querySelector('input[name="position"]:checked');
+
+      if(!name)    {errEl.textContent='氏名を入力してください';errEl.style.display='block';return;}
+      if(!gender)  {errEl.textContent='性別を選択してください';errEl.style.display='block';return;}
+      if(!birth)   {errEl.textContent='生年月日を入力してください';errEl.style.display='block';return;}
+      if(!country) {errEl.textContent='居住国を選択してください';errEl.style.display='block';return;}
+      if(!company) {errEl.textContent='在籍企業を入力してください';errEl.style.display='block';return;}
+      if(!position){errEl.textContent='職位を選択してください';errEl.style.display='block';return;}
+
+      const email = document.getElementById('s1-email').value.trim().toLowerCase();
+      const pass  = document.getElementById('s1-pass').value;
+
+      btn.textContent='登録中…'; btn.disabled=true;
+
+      // 1. Supabase authにユーザー作成
+      const { data, error } = await sb.auth.signUp({ email, password: pass });
+      if(error){
+        errEl.textContent = error.message === 'User already registered'
+          ? 'このメールアドレスは既に登録されています'
+          : 'エラーが発生しました: ' + error.message;
+        errEl.style.display='block';
+        btn.textContent='登録を完了する'; btn.disabled=false;
+        return;
+      }
+      if(!data.user){
+        errEl.textContent = 'Supabase管理画面でメール確認をOFFにしてください（Authentication → Email → Confirm email）';
+        errEl.style.display='block';
+        btn.textContent='登録を完了する'; btn.disabled=false;
+        return;
+      }
+
+      // 2. セッションが未確立の場合はサインインしてセッションを取得
+      if(!data.session){
+        const { error: signInErr } = await sb.auth.signInWithPassword({ email, password: pass });
+        if(signInErr){
+          errEl.textContent = 'ログインに失敗しました: ' + signInErr.message;
+          errEl.style.display='block';
+          btn.textContent='登録を完了する'; btn.disabled=false;
+          return;
+        }
+      }
+
+      const userId = data.user.id;
+      const profileData = { name, gender: gender.value, birthdate: birth, country, company, position: position.value };
+
+      // 3. プロフィールをDBに保存（triggerが作成した行をupdateし、なければupsert）
+      const { error: updateErr } = await sb.from('profiles').update(profileData).eq('id', userId);
+      if(updateErr){
+        // triggerが未設定の場合のフォールバック
+        await sb.from('profiles').upsert({ id: userId, email, ...profileData });
+      }
+
+      // 4. localStorageにも保存（ナビ表示用）
+      localStorage.setItem('pv_user', JSON.stringify({
+        id: userId, email, name, gender: gender.value,
+        birthdate: birth, country, company, position: position.value,
+        joinedAt: new Date().toISOString()
+      }));
+
+      // 5. 成功画面へ
+      document.getElementById('step-2').style.display='none';
+      document.getElementById('success-screen').style.display='block';
+    }
+  </script>
+</body>
+</html>

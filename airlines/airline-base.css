@@ -1,0 +1,256 @@
+/* ═══════════════════════════════════════════════════
+   PILOT VALUE — Airline Detail Page: Shared Styles
+   ═══════════════════════════════════════════════════ */
+
+/* ── Theme Toggle ─────────────────────────────────── */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.07);color:#e8edf2;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .2s,color .2s,border-color .2s;flex-shrink:0}
+.theme-toggle:hover{background:rgba(255,255,255,.13)}
+[data-theme="light"] .theme-toggle{background:rgba(0,0,0,.06);color:#0f172a;border-color:rgba(0,0,0,.13)}
+[data-theme="light"] .theme-toggle:hover{background:rgba(0,0,0,.11)}
+
+/* ── Light Mode ───────────────────────────────────── */
+[data-theme="light"] body{background-color:#f3f5f8!important;color:#0f172a!important}
+[data-theme="light"] body::before{opacity:.03}
+[data-theme="light"] nav{background:rgba(243,245,248,.96)!important;border-bottom:1px solid rgba(0,0,0,.08)!important;backdrop-filter:blur(16px)!important}
+[data-theme="light"] nav.scrolled{background:rgba(243,245,248,.99)!important}
+[data-theme="light"] .nav-link{color:rgba(15,23,42,.55)!important}
+[data-theme="light"] .nav-link:hover{color:#0f172a!important}
+[data-theme="light"] .glass{background:rgba(255,255,255,.92)!important;border-color:rgba(0,0,0,.08)!important;box-shadow:0 2px 14px rgba(0,0,0,.07)!important}
+[data-theme="light"] .glass-raised{background:#fff!important;border-color:rgba(0,0,0,.1)!important;box-shadow:0 4px 24px rgba(0,0,0,.09)!important}
+[data-theme="light"] .stat-card{background:#fff!important;border-color:rgba(0,0,0,.08)!important;box-shadow:0 1px 6px rgba(0,0,0,.06)!important}
+[data-theme="light"] .info-card{background:rgba(0,0,0,.03)!important;border-color:rgba(0,0,0,.07)!important}
+[data-theme="light"] .tag-blue{background:rgba(37,99,235,.07)!important;color:#1d4ed8!important;border-color:rgba(37,99,235,.2)!important}
+[data-theme="light"] .tag-gold{background:rgba(161,120,0,.08)!important;color:#92690a!important;border-color:rgba(161,120,0,.2)!important}
+[data-theme="light"] .tag-green{background:rgba(5,150,105,.07)!important;color:#047857!important;border-color:rgba(5,150,105,.2)!important}
+[data-theme="light"] .tag-gray{background:rgba(0,0,0,.05)!important;color:#4a5568!important;border-color:rgba(0,0,0,.1)!important}
+[data-theme="light"] .tag-orange{background:rgba(194,65,12,.07)!important;color:#c2410c!important;border-color:rgba(194,65,12,.18)!important}
+[data-theme="light"] .tag-red{background:rgba(185,28,28,.07)!important;color:#b91c1c!important;border-color:rgba(185,28,28,.18)!important}
+[data-theme="light"] .btn-ghost{background:rgba(0,0,0,.05)!important;color:#0f172a!important;border-color:rgba(0,0,0,.12)!important}
+[data-theme="light"] .btn-ghost:hover{background:rgba(0,0,0,.09)!important}
+[data-theme="light"] table th{color:#4a5568!important;border-bottom-color:rgba(0,0,0,.08)!important}
+[data-theme="light"] table td{border-bottom-color:rgba(0,0,0,.05)!important}
+[data-theme="light"] table tr:hover td{background:rgba(0,0,0,.02)!important}
+[data-theme="light"] .salary-bar-track{background:rgba(0,0,0,.08)!important}
+[data-theme="light"] .gradient-text{background:linear-gradient(135deg,#0f172a 0%,#334155 50%,#1d4ed8 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+[data-theme="light"] .hero-airline{background:linear-gradient(180deg,rgba(37,99,235,.07) 0%,transparent 60%)!important}
+[data-theme="light"] footer{background:#e4e8f0!important;border-top-color:rgba(0,0,0,.08)!important}
+[data-theme="light"] ::-webkit-scrollbar-track{background:#f3f5f8}
+[data-theme="light"] ::-webkit-scrollbar-thumb{background:#c4cfdf}
+[data-theme="light"] .text-muted,[data-theme="light"] [style*="color:#6b7d93"]{color:#64748b!important}
+[data-theme="light"] [style*="color:rgba(255,255,255,.6"]{color:rgba(15,23,42,.6)!important}
+[data-theme="light"] [style*="color:rgba(255,255,255,.5"]{color:rgba(15,23,42,.5)!important}
+
+/* ── Tab Navigation ───────────────────────────────── */
+#airline-tab-nav{
+  position:sticky;top:72px;z-index:100;
+  background:rgba(10,12,15,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+[data-theme="light"] #airline-tab-nav{background:rgba(243,245,248,.97);border-bottom-color:rgba(0,0,0,.08)}
+.airline-tab-scroll{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.airline-tab-scroll::-webkit-scrollbar{display:none}
+.airline-tab-btn{
+  padding:15px 20px;font-size:.85rem;font-weight:600;
+  color:rgba(255,255,255,.4);white-space:nowrap;
+  background:none;border:none;border-bottom:2px solid transparent;
+  cursor:pointer;transition:color .2s,border-color .2s;flex-shrink:0;
+}
+.airline-tab-btn:hover{color:rgba(255,255,255,.75)}
+.airline-tab-btn.active{color:#f5c842;border-bottom-color:#f5c842}
+[data-theme="light"] .airline-tab-btn{color:rgba(15,23,42,.4)}
+[data-theme="light"] .airline-tab-btn:hover{color:rgba(15,23,42,.75)}
+[data-theme="light"] .airline-tab-btn.active{color:#a07200;border-bottom-color:#a07200}
+.atab-count{
+  font-size:.7rem;font-weight:600;
+  padding:1px 7px;border-radius:999px;margin-left:5px;
+  background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);
+}
+.airline-tab-btn.active .atab-count{background:rgba(245,200,66,.15);color:#f5c842}
+[data-theme="light"] .atab-count{background:rgba(0,0,0,.06);color:rgba(15,23,42,.4)}
+[data-theme="light"] .airline-tab-btn.active .atab-count{background:rgba(160,114,0,.12);color:#a07200}
+
+/* ── Rating Widget ────────────────────────────────── */
+#airline-rating-widget{
+  margin-top:28px;padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+[data-theme="light"] #airline-rating-widget{border-top-color:rgba(0,0,0,.08)}
+.rw-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.rw-avg-score{font-size:3rem;font-weight:900;color:#f5c842;letter-spacing:-.04em;line-height:1}
+.rw-max{font-size:.85rem;color:#6b7d93;align-self:flex-end;padding-bottom:4px}
+.rw-stars{display:flex;gap:3px;margin-top:4px}
+.rw-star{font-size:1.1rem;color:#f5c842}
+.rw-star.empty{color:rgba(255,255,255,.15)}
+[data-theme="light"] .rw-star.empty{color:rgba(0,0,0,.12)}
+.rw-respondents{font-size:.72rem;color:#6b7d93;margin-top:3px}
+.rw-grid{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:center}
+@media(max-width:640px){.rw-grid{grid-template-columns:1fr}}
+.radar-svg{width:100%;max-width:220px;margin:0 auto;display:block}
+.cat-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.cat-bar-label{font-size:.73rem;color:#9ca3af;width:80px;flex-shrink:0}
+[data-theme="light"] .cat-bar-label{color:#64748b}
+.cat-bar-track-rw{height:5px;border-radius:3px;background:rgba(255,255,255,.07);flex:1;overflow:hidden;min-width:60px}
+[data-theme="light"] .cat-bar-track-rw{background:rgba(0,0,0,.08)}
+.cat-bar-fill-rw{height:100%;border-radius:3px;background:linear-gradient(90deg,#f97316,#f5c842);transition:width 1.2s cubic-bezier(.16,1,.3,1);width:0}
+.cat-bar-score-rw{font-size:.75rem;font-weight:700;color:#f5c842;width:26px;text-align:right;flex-shrink:0}
+
+/* ── Review Section ───────────────────────────────── */
+#airline-review-section{display:none}
+
+/* Card wrapper for per-card gate */
+.rv-card-wrap{position:relative;margin-bottom:12px}
+
+/* Review card */
+.detail-review-card{
+  background:rgba(17,22,32,.7);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;overflow:hidden;
+}
+[data-theme="light"] .detail-review-card{background:#fff;border-color:rgba(0,0,0,.09);box-shadow:0 2px 10px rgba(0,0,0,.07)}
+
+/* Card header band */
+.rv-card-head{
+  padding:12px 18px;
+  background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;
+}
+[data-theme="light"] .rv-card-head{background:rgba(0,0,0,.03);border-bottom-color:rgba(0,0,0,.06)}
+.rv-card-type{
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#f5c842;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.22);
+  padding:2px 10px;border-radius:999px;
+}
+.rv-reviewer-meta{font-size:.75rem;color:#6b7d93;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rv-meta-sep{opacity:.35}
+.rv-date{font-size:.72rem;color:#6b7d93}
+
+/* Card body */
+.rv-card-body{padding:16px 18px}
+
+/* Stars row */
+.rv-stars-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.rv-stars{color:#f5c842;font-size:.95rem;letter-spacing:.04em}
+.rv-score{font-weight:800;font-size:1.05rem}
+.rv-star-empty{color:rgba(255,255,255,.18)}
+[data-theme="light"] .rv-star-empty{color:rgba(0,0,0,.14)}
+
+/* Salary table */
+.rv-salary-table{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid rgba(255,255,255,.07);border-radius:10px;
+  overflow:hidden;margin-bottom:14px;
+}
+[data-theme="light"] .rv-salary-table{border-color:rgba(0,0,0,.08)}
+.rv-sal-cell{padding:10px 12px;border-right:1px solid rgba(255,255,255,.06)}
+.rv-sal-cell:last-child{border-right:none}
+[data-theme="light"] .rv-sal-cell{border-right-color:rgba(0,0,0,.06)}
+.rv-sal-label{font-size:.68rem;color:#6b7d93;margin-bottom:4px;white-space:nowrap}
+.rv-sal-value{font-size:.9rem;font-weight:700;color:#f5c842}
+[data-theme="light"] .rv-sal-value{color:#a07200}
+
+/* Review text */
+.rv-comment{font-size:.84rem;color:#b0c0d4;line-height:1.7}
+[data-theme="light"] .rv-comment{color:#334155}
+.rv-comment strong{color:#e8edf2}
+[data-theme="light"] .rv-comment strong{color:#0f172a}
+.rv-read-more{
+  color:#3d9bff;font-size:.8rem;font-weight:600;
+  background:none;border:none;cursor:pointer;padding:0;
+  text-decoration:underline;text-underline-offset:2px;
+}
+[data-theme="light"] .rv-read-more{color:#1d4ed8}
+
+/* Per-card gate overlay */
+.rv-card-blur{filter:blur(5px);user-select:none;pointer-events:none}
+.rv-card-gate{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(8,10,14,.45);
+  backdrop-filter:blur(1px);
+  border-radius:14px;
+}
+[data-theme="light"] .rv-card-gate{background:rgba(200,210,230,.5)}
+
+.btn-review-post{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 24px;border-radius:10px;font-weight:700;font-size:.88rem;
+  background:linear-gradient(135deg,#f97316,#f5c842);color:#000;
+  border:none;cursor:pointer;text-decoration:none;
+  box-shadow:0 4px 20px rgba(249,115,22,.4);
+  transition:opacity .2s,transform .2s;
+}
+.btn-review-post:hover{opacity:.9;transform:translateY(-1px)}
+
+/* "Post review" gate at very bottom */
+.rv-post-gate{
+  margin-top:20px;padding:24px;border-radius:14px;text-align:center;
+  background:rgba(17,22,32,.6);border:1px solid rgba(245,200,66,.15);
+}
+[data-theme="light"] .rv-post-gate{background:rgba(255,255,255,.85);border-color:rgba(180,140,0,.2);box-shadow:0 2px 12px rgba(0,0,0,.08)}
+
+/* ── Hero Rating Banner ───────────────────────────── */
+#airline-rating-banner{
+  background:rgba(13,17,26,.75);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+[data-theme="light"] #airline-rating-banner{background:rgba(240,245,255,.96);border-bottom-color:rgba(0,0,0,.08)}
+
+.hrb-inner{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:32px;
+  padding:24px 0;
+}
+@media(max-width:640px){.hrb-inner{gap:16px;padding:20px 0}}
+
+/* Score block */
+.hrb-score-block{flex-shrink:0;padding-right:28px;border-right:1px solid rgba(255,255,255,.1)}
+[data-theme="light"] .hrb-score-block{border-right-color:rgba(0,0,0,.1)}
+.hrb-label{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a8bdd4;margin-bottom:6px}
+[data-theme="light"] .hrb-label{color:#4a6080}
+.hrb-score-row{display:flex;align-items:baseline;gap:6px}
+.hrb-avg{font-size:3rem;font-weight:900;line-height:1;letter-spacing:-.04em;color:#f5c842}
+[data-theme="light"] .hrb-avg{color:#a07200}
+@media(max-width:800px){.hrb-avg{font-size:2.4rem}}
+.hrb-max{font-size:.8rem;color:#6b7d93;margin-top:2px}
+[data-theme="light"] .hrb-max{color:#94a3b8}
+.hrb-stars{display:flex;gap:2px;margin-top:6px}
+.hrb-star{font-size:1.1rem;color:#f5c842}
+.hrb-star.empty{color:rgba(255,255,255,.14)}
+[data-theme="light"] .hrb-star.empty{color:rgba(0,0,0,.13)}
+.hrb-count{font-size:.72rem;color:#6b7d93;margin-top:6px}
+[data-theme="light"] .hrb-count{color:#64748b}
+
+/* Radar — hidden in banner (shown in rating widget only) */
+.hrb-radar{display:none!important}
+.radar-svg{overflow:visible}
+
+/* Bars — full width, prominent */
+.hrb-bars{min-width:0;width:auto}
+.hrb-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.hrb-bar-row:last-child{margin-bottom:0}
+.hrb-bar-label{font-size:.82rem;color:#8899aa;width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-theme="light"] .hrb-bar-label{color:#64748b}
+.hrb-bar-track{flex:1;height:8px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;min-width:0}
+[data-theme="light"] .hrb-bar-track{background:rgba(0,0,0,.08)}
+.hrb-bar-fill{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,#f97316,#f5c842);transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.hrb-bar-score{font-size:.82rem;font-weight:700;color:#f5c842;width:28px;text-align:right;flex-shrink:0}
+[data-theme="light"] .hrb-bar-score{color:#a07200}
+
+/* CTA — hidden from banner */
+.hrb-cta{display:none!important}
+.hrb-cta-sub{font-size:.68rem;color:#6b7d93;text-align:center}
+[data-theme="light"] .hrb-cta-sub{color:#64748b}
+
+/* Light mode radar chart fixes */
+[data-theme="light"] .radar-svg polygon[fill="none"],
+[data-theme="light"] .radar-svg line{stroke:rgba(0,0,0,.14)!important}
+[data-theme="light"] .radar-svg text{fill:rgba(0,0,0,.6)!important}
+
+/* Hero h1 — 3/4 size */
+.hero-airline h1{font-size:1.7rem!important;line-height:1.2!important}
+@media(min-width:1024px){.hero-airline h1{font-size:2.25rem!important}}

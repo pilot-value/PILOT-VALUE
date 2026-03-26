@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<script>(function(){var t=localStorage.getItem('pv-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>サイトマップ | PILOT VALUE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth}
+body{background-color:#0a0c0f;color:#e8edf2;font-family:'Inter','Noto Sans JP',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-size:128px;opacity:.3}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:background .4s}nav.scrolled{background:rgba(10,12,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-link{color:rgba(255,255,255,.6);font-size:.85rem;font-weight:500;letter-spacing:.04em;transition:color .2s;text-decoration:none}.nav-link:hover{color:#fff}
+.logo-img{height:44px;width:auto;filter:brightness(1.15) drop-shadow(0 0 8px rgba(249,115,22,.5))}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:10px;background:rgba(255,255,255,.07);color:#e8edf2;font-size:.875rem;font-weight:600;border:1px solid rgba(255,255,255,.12);text-decoration:none;transition:background .2s}.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.section-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(61,155,255,.10);border:1px solid rgba(61,155,255,.25);font-size:.75rem;font-weight:600;color:#3d9bff;letter-spacing:.08em;text-transform:uppercase}
+footer{background:#060809;border-top:1px solid rgba(255,255,255,.05)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0a0c0f}::-webkit-scrollbar-thumb{background:#18212f;border-radius:3px}
+.sm-section{background:rgba(17,22,32,.6);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;margin-bottom:16px}
+.sm-title{font-size:.75rem;font-weight:700;color:#3d9bff;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.sm-link{display:flex;align-items:center;gap:8px;padding:6px 0;text-decoration:none;color:#8899aa;font-size:.88rem;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s}
+.sm-link:last-child{border-bottom:none}
+.sm-link:hover{color:#e8edf2}
+.sm-link::before{content:'→';color:#3d9bff;font-size:.75rem;flex-shrink:0}
+</style>
+</head>
+<body>
+<nav id="main-nav">
+  <div class="max-w-5xl mx-auto px-6 flex items-center justify-between h-[72px]">
+    <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img"/></a>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="index.html#compare" class="nav-link">日本 vs 海外</a>
+      <a href="world-airlines.html" class="nav-link">世界の航空会社一覧</a>
+    </div>
+    <a href="index.html" class="btn-ghost text-sm py-2 px-4">← トップへ</a>
+  </div>
+</nav>
+
+<div style="padding:120px 0 80px">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="section-badge mb-4">SITEMAP</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.03em;margin-bottom:8px">サイトマップ</h1>
+    <p style="color:#6b7d93;margin-bottom:48px">PILOT VALUE の全ページ一覧です。</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+
+      <div class="sm-section">
+        <div class="sm-title">メインページ</div>
+        <a href="index.html" class="sm-link">トップページ（年収比較・ランキング）</a>
+        <a href="world-airlines.html" class="sm-link">世界の航空会社一覧</a>
+        <a href="world-jobs.html" class="sm-link">求人情報</a>
+        <a href="community.html" class="sm-link">コミュニティ</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">アカウント</div>
+        <a href="login.html" class="sm-link">ログイン</a>
+        <a href="signup.html" class="sm-link">新規会員登録</a>
+        <a href="profile.html" class="sm-link">プロフィール</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">ご案内・ポリシー</div>
+        <a href="guide.html" class="sm-link">ご利用案内</a>
+        <a href="policy.html" class="sm-link">運営ポリシー</a>
+        <a href="terms.html" class="sm-link">利用規約</a>
+        <a href="privacy.html" class="sm-link">プライバシーポリシー</a>
+        <a href="personal-data.html" class="sm-link">パーソナルデータの扱い</a>
+        <a href="help.html" class="sm-link">ヘルプ</a>
+        <a href="sitemap.html" class="sm-link">サイトマップ</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">日本の航空会社</div>
+        <a href="airlines/ana.html" class="sm-link">全日本空輸（ANA）</a>
+        <a href="airlines/jal.html" class="sm-link">日本航空（JAL）</a>
+        <a href="airlines/skymark.html" class="sm-link">スカイマーク</a>
+        <a href="airlines/zipair.html" class="sm-link">ZIPAIR Tokyo</a>
+        <a href="airlines/peach.html" class="sm-link">Peach Aviation</a>
+        <a href="airlines/jetstar-japan.html" class="sm-link">Jetstar Japan</a>
+        <a href="airlines/spring-japan.html" class="sm-link">Spring Japan</a>
+        <a href="airlines/j-air.html" class="sm-link">ジェイエア（J-AIR）</a>
+        <a href="airlines/jta.html" class="sm-link">日本トランスオーシャン航空（JTA）</a>
+        <a href="airlines/jac.html" class="sm-link">日本エアコミューター（JAC）</a>
+        <a href="airlines/rac.html" class="sm-link">琉球エアーコミューター（RAC）</a>
+        <a href="airlines/hac.html" class="sm-link">北海道エアシステム（HAC）</a>
+        <a href="airlines/ana-wings.html" class="sm-link">ANAウイングス</a>
+        <a href="airlines/airjapan.html" class="sm-link">AirJapan</a>
+        <a href="airlines/airdo.html" class="sm-link">AIRDO</a>
+        <a href="airlines/solaseed.html" class="sm-link">ソラシドエア</a>
+        <a href="airlines/starflyer.html" class="sm-link">スターフライヤー</a>
+        <a href="airlines/fda.html" class="sm-link">フジドリームエアラインズ（FDA）</a>
+        <a href="airlines/ibex.html" class="sm-link">アイベックスエアラインズ（IBEX）</a>
+        <a href="airlines/toki-air.html" class="sm-link">トキエア</a>
+        <a href="airlines/orc.html" class="sm-link">オリエンタルエアブリッジ（ORC）</a>
+        <a href="airlines/amx.html" class="sm-link">天草エアライン（AMX）</a>
+        <a href="airlines/shin-central.html" class="sm-link">新中央航空</a>
+        <a href="airlines/toho-air.html" class="sm-link">東邦航空</a>
+        <a href="airlines/daiichi-air.html" class="sm-link">第一航空</a>
+        <a href="airlines/shin-nihon.html" class="sm-link">新日本航空</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">北米の航空会社</div>
+        <a href="airlines/delta.html" class="sm-link">Delta Air Lines</a>
+        <a href="airlines/united.html" class="sm-link">United Airlines</a>
+        <a href="airlines/american.html" class="sm-link">American Airlines</a>
+        <a href="airlines/southwest.html" class="sm-link">Southwest Airlines</a>
+        <a href="airlines/alaska-airlines.html" class="sm-link">Alaska Airlines</a>
+        <a href="airlines/jetblue.html" class="sm-link">JetBlue</a>
+        <a href="airlines/frontier.html" class="sm-link">Frontier Airlines</a>
+        <a href="airlines/spirit.html" class="sm-link">Spirit Airlines</a>
+        <a href="airlines/allegiant.html" class="sm-link">Allegiant Air</a>
+        <a href="airlines/breeze-airways.html" class="sm-link">Breeze Airways</a>
+        <a href="airlines/air-canada.html" class="sm-link">Air Canada</a>
+        <a href="airlines/westjet.html" class="sm-link">WestJet</a>
+        <a href="airlines/porter.html" class="sm-link">Porter Airlines</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">中東の航空会社</div>
+        <a href="airlines/emirates.html" class="sm-link">Emirates</a>
+        <a href="airlines/qatar-airways.html" class="sm-link">Qatar Airways</a>
+        <a href="airlines/etihad.html" class="sm-link">Etihad Airways</a>
+        <a href="airlines/riyadh-air.html" class="sm-link">Riyadh Air</a>
+        <a href="airlines/saudia.html" class="sm-link">Saudia</a>
+        <a href="airlines/turkish-airlines.html" class="sm-link">Turkish Airlines</a>
+        <a href="airlines/oman-air.html" class="sm-link">Oman Air</a>
+        <a href="airlines/gulf-air.html" class="sm-link">Gulf Air</a>
+        <a href="airlines/kuwait-airways.html" class="sm-link">Kuwait Airways</a>
+        <a href="airlines/royal-jordanian.html" class="sm-link">Royal Jordanian</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">欧州の航空会社</div>
+        <a href="airlines/lufthansa.html" class="sm-link">Lufthansa</a>
+        <a href="airlines/british-airways.html" class="sm-link">British Airways</a>
+        <a href="airlines/air-france.html" class="sm-link">Air France</a>
+        <a href="airlines/klm.html" class="sm-link">KLM</a>
+        <a href="airlines/swiss.html" class="sm-link">SWISS</a>
+        <a href="airlines/austrian.html" class="sm-link">Austrian Airlines</a>
+        <a href="airlines/iberia.html" class="sm-link">Iberia</a>
+        <a href="airlines/tap.html" class="sm-link">TAP Air Portugal</a>
+        <a href="airlines/sas.html" class="sm-link">SAS</a>
+        <a href="airlines/finnair.html" class="sm-link">Finnair</a>
+        <a href="airlines/icelandair.html" class="sm-link">Icelandair</a>
+        <a href="airlines/norwegian.html" class="sm-link">Norwegian</a>
+        <a href="airlines/ryanair.html" class="sm-link">Ryanair</a>
+        <a href="airlines/easyjet.html" class="sm-link">easyJet</a>
+        <a href="airlines/vueling.html" class="sm-link">Vueling</a>
+        <a href="airlines/wizz-air.html" class="sm-link">Wizz Air</a>
+        <a href="airlines/aegean.html" class="sm-link">Aegean Airlines</a>
+        <a href="airlines/aer-lingus.html" class="sm-link">Aer Lingus</a>
+        <a href="airlines/lot.html" class="sm-link">LOT Polish Airlines</a>
+        <a href="airlines/ita-airways.html" class="sm-link">ITA Airways</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">アジアの航空会社</div>
+        <a href="airlines/singapore-airlines.html" class="sm-link">Singapore Airlines</a>
+        <a href="airlines/cathay-pacific.html" class="sm-link">Cathay Pacific</a>
+        <a href="airlines/korean-air.html" class="sm-link">Korean Air</a>
+        <a href="airlines/eva-air.html" class="sm-link">EVA Air</a>
+        <a href="airlines/china-airlines.html" class="sm-link">China Airlines</a>
+        <a href="airlines/starlux.html" class="sm-link">StarLux Airlines</a>
+        <a href="airlines/air-china.html" class="sm-link">Air China</a>
+        <a href="airlines/china-eastern.html" class="sm-link">China Eastern</a>
+        <a href="airlines/china-southern.html" class="sm-link">China Southern</a>
+        <a href="airlines/hainan-airlines.html" class="sm-link">Hainan Airlines</a>
+        <a href="airlines/thai-airways.html" class="sm-link">Thai Airways</a>
+        <a href="airlines/malaysia-airlines.html" class="sm-link">Malaysia Airlines</a>
+        <a href="airlines/garuda-indonesia.html" class="sm-link">Garuda Indonesia</a>
+        <a href="airlines/philippine-airlines.html" class="sm-link">Philippine Airlines</a>
+        <a href="airlines/air-india.html" class="sm-link">Air India</a>
+        <a href="airlines/airasia.html" class="sm-link">AirAsia</a>
+        <a href="airlines/scoot.html" class="sm-link">Scoot</a>
+        <a href="airlines/hong-kong-express.html" class="sm-link">HK Express</a>
+        <a href="airlines/vietnam-airlines.html" class="sm-link">Vietnam Airlines</a>
+        <a href="airlines/bamboo-airways.html" class="sm-link">Bamboo Airways</a>
+        <a href="airlines/vietjet.html" class="sm-link">VietJet Air</a>
+        <a href="airlines/batik-air.html" class="sm-link">Batik Air</a>
+        <a href="airlines/indigo.html" class="sm-link">IndiGo</a>
+        <a href="airlines/royal-brunei.html" class="sm-link">Royal Brunei</a>
+      </div>
+
+      <div class="sm-section">
+        <div class="sm-title">オセアニア・中南米・アフリカ</div>
+        <a href="airlines/qantas.html" class="sm-link">Qantas</a>
+        <a href="airlines/air-new-zealand.html" class="sm-link">Air New Zealand</a>
+        <a href="airlines/fiji-airways.html" class="sm-link">Fiji Airways</a>
+        <a href="airlines/jetstar.html" class="sm-link">Jetstar</a>
+        <a href="airlines/latam.html" class="sm-link">LATAM Airlines</a>
+        <a href="airlines/avianca.html" class="sm-link">Avianca</a>
+        <a href="airlines/aeromexico.html" class="sm-link">Aeromexico</a>
+        <a href="airlines/copa-airlines.html" class="sm-link">Copa Airlines</a>
+        <a href="airlines/ethiopian-airlines.html" class="sm-link">Ethiopian Airlines</a>
+        <a href="airlines/kenya-airways.html" class="sm-link">Kenya Airways</a>
+        <a href="airlines/egyptair.html" class="sm-link">EgyptAir</a>
+        <a href="airlines/south-african-airways.html" class="sm-link">South African Airways</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="py-10">
+  <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" style="height:28px;opacity:.7"/></a>
+    <p style="font-size:.75rem;color:#6b7d93">© 2026 PILOT VALUE. All rights reserved.</p>
+    <a href="index.html" class="btn-ghost text-sm py-2 px-4">← トップへ</a>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.06);margin-top:20px;padding-top:16px;text-align:center">
+    <div style="display:flex;flex-wrap:wrap;justify-content:center">
+      <a href="guide.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ご利用案内</a>
+      <a href="policy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">運営ポリシー</a>
+      <a href="terms.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">利用規約</a>
+      <a href="privacy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">プライバシーポリシー</a>
+      <a href="personal-data.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">パーソナルデータの扱い</a>
+      <a href="help.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ヘルプ</a>
+      <a href="sitemap.html" style="color:#3d9bff;font-size:.72rem;padding:5px 14px;text-decoration:none">サイトマップ</a>
+    </div>
+  </div>
+</footer>
+<script>window.addEventListener('scroll',()=>{document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40)},{passive:true});</script>
+<script src="search.js"></script>
+</body></html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <script>(function(){var t=localStorage.getItem('pv-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ウィズエアUK（Wizz Air UK）（Wizz Air UK）パイロット情報 | PILOT VALUE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <script>tailwind.config={theme:{extend:{colors:{bg:'#0a0c0f',surface:'#111620',raised:'#18212f',accent:'#c5007c',gold:'#f5c842',orange:'#f97316',text:'#e8edf2',muted:'#6b7d93'},fontFamily:{sans:['Inter','Noto Sans JP','sans-serif']}}}};</script>
+  <style>
+*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth}
+body{background-color:#0a0c0f;color:#e8edf2;font-family:'Inter','Noto Sans JP',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-size:128px;opacity:.3}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:background .4s,border-color .4s}
+nav.scrolled{background:rgba(10,12,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-link{color:rgba(255,255,255,.6);font-size:.85rem;font-weight:500;letter-spacing:.04em;transition:color .2s;text-decoration:none}
+.nav-link:hover{color:#fff}
+.glass{background:rgba(17,22,32,.7);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.07);border-radius:16px}
+.glass-raised{background:rgba(24,33,47,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.10);border-radius:16px}
+.gradient-text{background:linear-gradient(135deg,#ffffff 0%,#a8c8f0 60%,#3d9bff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:600}
+.tag-blue{background:rgba(61,155,255,.12);color:#5fb0ff;border:1px solid rgba(61,155,255,.2)}
+.tag-gold{background:rgba(245,200,66,.10);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
+.tag-green{background:rgba(52,211,153,.10);color:#34d399;border:1px solid rgba(52,211,153,.2)}
+.tag-gray{background:rgba(255,255,255,.06);color:#8899aa;border:1px solid rgba(255,255,255,.1)}
+.tag-orange{background:rgba(249,115,22,.12);color:#fb923c;border:1px solid rgba(249,115,22,.2)}
+.tag-red{background:rgba(232,25,44,.12);color:#ff5555;border:1px solid rgba(232,25,44,.2)}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:10px;background:#3d9bff;color:#fff;font-size:.9rem;font-weight:600;border:none;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-primary:hover{background:#5eb3ff;transform:translateY(-1px);box-shadow:0 8px 30px rgba(61,155,255,.35)}
+.btn-orange{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:10px;background:linear-gradient(135deg,#f97316,#f5c842);color:#000;font-size:.9rem;font-weight:600;border:none;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s}
+.btn-orange:hover{opacity:.9;transform:translateY(-1px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:10px;background:rgba(255,255,255,.07);color:#e8edf2;font-size:.875rem;font-weight:600;border:1px solid rgba(255,255,255,.12);text-decoration:none;transition:background .2s,border-color .2s}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.salary-bar-track{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.salary-bar-fill{height:100%;border-radius:999px;transition:width 1.4s cubic-bezier(.16,1,.3,1);width:0}
+.stat-card{padding:20px;border-radius:14px;background:rgba(17,22,32,.6);border:1px solid rgba(255,255,255,.07)}
+.section-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(61,155,255,.10);border:1px solid rgba(61,155,255,.25);font-size:.75rem;font-weight:600;color:#3d9bff;letter-spacing:.08em;text-transform:uppercase}
+table{width:100%;border-collapse:collapse}
+th{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b7d93;padding:12px 16px;text-align:left;border-bottom:1px solid rgba(255,255,255,.07)}
+td{padding:13px 16px;font-size:.875rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.logo-img{height:44px;width:auto;filter:brightness(1.15) drop-shadow(0 0 8px rgba(249,115,22,.5));transition:filter .3s}
+footer{background:#060809;border-top:1px solid rgba(255,255,255,.05)}
+.hero-airline{position:relative;padding:160px 0 80px;overflow:hidden}
+.info-card{background:rgba(17,22,32,.6);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;margin-bottom:8px}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0a0c0f}::-webkit-scrollbar-thumb{background:#18212f;border-radius:3px}
+
+  .section-badge{background:#c5007c18;border:1px solid #c5007c40;color:#c5007c}
+  .gradient-text{background:linear-gradient(135deg,#ffffff 0%,#c5007ccc 60%,#c5007c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  </style>
+  <link rel="stylesheet" href="airline-base.css"/>
+</head>
+<body class="relative" data-airline="wizz-air">
+
+<nav id="main-nav">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-[72px]">
+    <a href="../index.html"><img src="../baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img"/></a>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="../index.html#compare" class="nav-link">日本 vs 海外</a>
+      <a href="../index.html#ranking" class="nav-link">年収ランキング</a>
+      <a href="../world-airlines.html" class="nav-link">世界の航空会社一覧</a>
+      <a href="../index.html#jobs" class="nav-link">求人情報</a>
+      <a href="../community.html" class="nav-link">コミュニティ</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="theme-toggle" class="theme-toggle" aria-label="ダーク/ライト切替"></button>
+      <a href="../world-airlines.html" class="btn-ghost text-sm py-2 px-4">← 一覧に戻る</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero-airline" style="background:linear-gradient(180deg,#c5007c12 0%,transparent 60%)">
+  <div class="absolute inset-0" style="background:radial-gradient(ellipse 50% 60% at 20% 40%,#c5007c10 0%,transparent 70%)"></div>
+  <div class="max-w-7xl mx-auto px-6 relative">
+    <div class="flex items-start gap-6 mb-8">
+      <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black flex-shrink-0" style="background:#c5007c20;color:#c5007c;border:1px solid #c5007c35">W6</div>
+      <div>
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <span class="tag tag-blue">🇬🇧 イギリス</span><span class="tag tag-orange">ULCC</span><span class="tag tag-blue">A320/A321</span><span class="tag tag-gray">欧州路線</span>
+        </div>
+        <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight gradient-text mb-2">ウィズエアUK（Wizz Air UK）</h1>
+        <p class="text-muted text-lg">Wizz Air UK — 欧州最大級ウルトラLCC — Airbus A320ファミリー専業</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="stat-card text-center"><div class="text-2xl font-extrabold mb-1" style="color:#c5007c">¥3,800万+</div><div class="text-xs text-muted">機長総年収（参考値）</div></div><div class="stat-card text-center"><div class="text-2xl font-extrabold mb-1" style="color:#a855f7">¥680万〜¥1,050万</div><div class="text-xs text-muted">FO基本給</div></div><div class="stat-card text-center"><div class="text-2xl font-extrabold mb-1" style="color:#c5007c">250機+</div><div class="text-xs text-muted">A320ファミリー</div></div><div class="stat-card text-center"><div class="text-2xl font-extrabold mb-1" style="color:#c5007c">3.5〜5年</div><div class="text-xs text-muted">FO→機長昇格目安</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-6 pb-24 space-y-10">
+
+  <!-- 概要 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">航空会社の概要</div>
+    <h2 class="text-2xl font-bold mb-4">ウィズエアUK（Wizz Air UK）について</h2>
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div>
+        <p class="text-muted leading-relaxed">ウィズエアUK（Wizz Air UK）は、ハンガリー系超格安航空会社ウィズエアのイギリス法人。英国に運航証明（AOC）を持ち、主にロンドン・ガトウィックなどを拠点として欧州各都市に運航する。Airbus A320/A321ファミリーのみを保有し、効率的なオペレーションを実現。欧州最大規模のULCC（Ultra Low Cost Carrier）の一つ。積極的な機材拡大に伴い、機長・副操縦士を定期採用している。</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><div class="text-xs text-muted uppercase tracking-widest mb-1">本社</div><div class="font-semibold text-sm">ロンドン（英国）</div></div><div><div class="text-xs text-muted uppercase tracking-widest mb-1">親会社</div><div class="font-semibold text-sm">Wizz Air Holdings（ハンガリー）</div></div><div><div class="text-xs text-muted uppercase tracking-widest mb-1">主要拠点</div><div class="font-semibold text-sm">ガトウィック空港・ルートン空港</div></div><div><div class="text-xs text-muted uppercase tracking-widest mb-1">機材</div><div class="font-semibold text-sm">Airbus A320/A321 専業</div></div><div><div class="text-xs text-muted uppercase tracking-widest mb-1">就航路線</div><div class="font-semibold text-sm">欧州中心（200路線以上）</div></div><div><div class="text-xs text-muted uppercase tracking-widest mb-1">所得税</div><div class="font-semibold text-sm">あり（英国・最大45%）</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 年収 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">年収データ</div>
+    <h2 class="text-2xl font-bold mb-6">パイロット年収（2026年3月現在）</h2>
+    <div class="overflow-x-auto mb-6">
+      <table>
+        <thead><tr><th>ポジション</th><th>年収レンジ</th><th>平均・参考値</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="font-semibold">機長（Direct Entry Captain）</span><br><span class="text-xs text-muted">A320/A321</span></td>
+            <td><div class="text-sm">¥1,850万〜¥2,768万（基本給）</div><div class="mt-1 salary-bar-track w-32"><div class="salary-bar-fill" style="background:linear-gradient(90deg,#c5007c88,#c5007c)" data-width="100"></div></div></td>
+            <td><span class="font-bold text-xl" style="color:#c5007c">総額¥3,800万+</span></td>
+            <td><span class="tag tag-orange">Duty Pay込みで£200,000+も可能</span></td>
+          </tr><tr>
+            <td><span class="font-semibold">副操縦士（First Officer）</span><br><span class="text-xs text-muted">A320/A321型式あり</span></td>
+            <td><div class="text-sm">¥680万〜¥1,050万（基本給）</div><div class="mt-1 salary-bar-track w-32"><div class="salary-bar-fill" style="background:linear-gradient(90deg,#c5007c88,#c5007c)" data-width="35"></div></div></td>
+            <td><span class="font-bold text-xl" style="color:#c5007c">¥1,000万〜</span></td>
+            <td><span class="tag tag-gray">Duty Pay別途</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-muted">※ GBP/JPY=190換算（2026年3月）。英国は所得税が高く（最大45%）、手取りはグロスの50〜60%程度。中東系（非課税）との直接比較には注意。欧州ULCC特有の「Duty Pay（便ごと加算）」が総年収を大きく左右する。</p>
+  </div>
+
+  <!-- 運航環境 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">運航環境</div>
+    <h2 class="text-2xl font-bold mb-6">フライト環境・路線・機材</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <div class="text-xs text-muted uppercase tracking-widest font-semibold mb-3">就航路線</div>
+        <p class="text-muted text-sm leading-relaxed">英国・欧州各地（200路線以上）。ガトウィック・ルートン・バーミンガムを主要拠点に東欧・南欧へ多数就航。中東・アフリカへの路線も拡大中。</p>
+      </div>
+      <div>
+        <div class="text-xs text-muted uppercase tracking-widest font-semibold mb-3">保有機材</div>
+        <p class="text-muted text-sm leading-relaxed">Airbus A320/A321 250機以上（neo含む）。ウィズエアグループ全体では750機超の大規模フリートを保有。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 訓練 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">訓練環境</div>
+    <h2 class="text-2xl font-bold mb-6">訓練・審査システム</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="info-card"><div class="font-semibold mb-2" style="color:#c5007c">A320型式訓練</div><p class="text-sm text-muted">型式未取得者向けのType Rating訓練をウィズエア・パイロット・アカデミーで実施可能（費用は要確認）。型式取得済み者は差分訓練のみ。</p></div><div class="info-card"><div class="font-semibold mb-2" style="color:#c5007c">ライン訓練（LIFUS）</div><p class="text-sm text-muted">型式訓練後はLine Flying Under Supervision（LIFUS）を経て資格完了。通常75フライト程度。</p></div><div class="info-card"><div class="font-semibold mb-2" style="color:#c5007c">機長昇格</div><p class="text-sm text-muted">副操縦士から機長昇格まで平均3.5〜5年。最低3,000ファクタードアワー＋1,000時間PIC（A320）が必要。欧州ULCC最速水準のひとつ。</p></div><div class="info-card"><div class="font-semibold mb-2" style="color:#c5007c">定期審査</div><p class="text-sm text-muted">OPC（Operator Proficiency Check）とLPC（License Proficiency Check）を年2回実施。EASAの要件に準拠。</p></div>
+    </div>
+  </div>
+
+  <!-- 福利厚生 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">福利厚生</div>
+    <h2 class="text-2xl font-bold mb-6">ベネフィット・待遇</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="stat-card"><div class="text-2xl mb-2">✈️</div><div class="font-semibold text-sm mb-1">スタッフ割引</div><p class="text-xs text-muted">本人・家族向けの大幅割引航空券。ウィズエアグループ全便対象。</p></div><div class="stat-card"><div class="text-2xl mb-2">📈</div><div class="font-semibold text-sm mb-1">Duty Pay</div><p class="text-xs text-muted">フライトごとの追加pay。これが総年収を大きく増加させる変動型報酬。</p></div><div class="stat-card"><div class="text-2xl mb-2">🏥</div><div class="font-semibold text-sm mb-1">医療保険</div><p class="text-xs text-muted">英国の国民保険制度（NHS）に加えて私的医療保険オプション。</p></div><div class="stat-card"><div class="text-2xl mb-2">📅</div><div class="font-semibold text-sm mb-1">有給休暇</div><p class="text-xs text-muted">欧州法定休暇（最低28日）を保障。</p></div><div class="stat-card"><div class="text-2xl mb-2">🎓</div><div class="font-semibold text-sm mb-1">訓練費補助</div><p class="text-xs text-muted">状況により型式訓練費用の補助あり（詳細は採用時に確認）。</p></div>
+    </div>
+  </div>
+
+  <!-- 募集要項 -->
+  <div class="glass p-8 fade-up">
+    <div class="section-badge mb-4">募集要項</div>
+    <h2 class="text-2xl font-bold mb-2">採用情報（2026年3月現在）</h2>
+    <p class="text-sm text-muted mb-6">採用状況：<strong style="color:#34d399">採用中（2026年3月・要最新確認）</strong></p>
+    <div class="space-y-5">
+      <div class="glass-raised p-6" style="border-color:#c5007c25">
+        <div class="flex items-start justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="font-bold text-base mb-0.5">機長（Captain）— Airbus A320/A321</div>
+            <div class="text-sm text-muted">Direct Entry Captain</div>
+          </div>
+          <span class="tag tag-blue">募集中（要確認）</span>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3 mb-3">
+          <div class="text-sm"><span class="text-muted">必要時間：</span><span>大型ジェット（50t超）1,500時間以上</span></div><div class="text-sm"><span class="text-muted">PIC経験：</span><span>同機材で1,000時間以上</span></div><div class="text-sm"><span class="text-muted">資格：</span><span>有効なEASA ATPL</span></div><div class="text-sm"><span class="text-muted">年収目安：</span><span>£97,550〜145,700（基本給）+ Duty Pay</span></div>
+        </div>
+        <p class="text-xs text-muted mt-2">締切：2026年3月25日（要最新確認）</p>
+      </div><div class="glass-raised p-6" style="border-color:#c5007c25">
+        <div class="flex items-start justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div class="font-bold text-base mb-0.5">副操縦士（First Officer）— Airbus A320/A321</div>
+            <div class="text-sm text-muted">A320型式取得済み・未取得どちらも応募可</div>
+          </div>
+          <span class="tag tag-blue">募集中（要確認）</span>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3 mb-3">
+          <div class="text-sm"><span class="text-muted">必要時間：</span><span>ME/IR マルチクルー 500時間以上</span></div><div class="text-sm"><span class="text-muted">資格：</span><span>ATPL理論合格済み（EASA）</span></div><div class="text-sm"><span class="text-muted">追加：</span><span>JOC/APS-MCC（ジェット）修了</span></div><div class="text-sm"><span class="text-muted">年収目安：</span><span>£35,700〜55,000（基本給）+ Duty Pay</span></div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="mt-6"><a href="https://www.latestpilotjobs.com/jobs/view/id/19249.html" target="_blank" class="btn-orange">採用ページへ（外部サイト）<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M8 2h4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></div>
+  </div>
+
+</div>
+
+<footer class="py-10">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <a href="../index.html"><img src="../baland_ass/ロゴイメージ.png" alt="PILOT VALUE" style="height:28px;opacity:.7"/></a>
+    <div class="flex gap-5 text-sm text-muted">
+      <a href="../index.html" class="hover:text-text transition-colors">ホーム</a>
+      <a href="../world-jobs.html" class="hover:text-text transition-colors">世界の求人</a>
+      <a href="../community.html" class="hover:text-text transition-colors">コミュニティ</a>
+    </div>
+    <p class="text-xs text-muted">掲載情報は参考値。実際の採用条件は各社公式サイトをご確認ください。</p>
+  </div>
+<div style="border-top:1px solid rgba(255,255,255,.06);margin-top:20px;padding-top:16px;text-align:center"><div style="display:flex;flex-wrap:wrap;justify-content:center"><a href="../guide.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ご利用案内</a><a href="../policy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">運営ポリシー</a><a href="../terms.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">利用規約</a><a href="../privacy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">プライバシーポリシー</a><a href="../personal-data.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">パーソナルデータの扱い</a><a href="../help.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ヘルプ</a><a href="../sitemap.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">サイトマップ</a></div></div></footer>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40)},{passive:true});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');animateBars(e.target);io.unobserve(e.target);}});},{threshold:0.01,rootMargin:'0px 0px -30px 0px'});
+function animateBars(container){container.querySelectorAll('[data-width]').forEach(bar=>{bar.style.width='0';setTimeout(()=>{bar.style.width=(bar.dataset.width||0)+'%';},80);});}
+document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+setTimeout(()=>{document.querySelectorAll('.fade-up:not(.visible)').forEach(el=>{el.classList.add('visible');animateBars(el);});},300);
+</script>
+  <script src="airline-base.js"></script>
+</body>
+</html>

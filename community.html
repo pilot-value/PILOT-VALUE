@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <script>(function(){var t=localStorage.getItem('pv-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>パイロットコミュニティ — PILOT VALUE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:      '#0a0c0f',
+            surface: '#111620',
+            raised:  '#18212f',
+            accent:  '#3d9bff',
+            gold:    '#f5c842',
+            orange:  '#f97316',
+            text:    '#e8edf2',
+            muted:   '#6b7d93',
+          },
+          fontFamily: { sans: ['Inter', 'Noto Sans JP', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0a0c0f;
+      color: #e8edf2;
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size:128px; opacity:.3;
+    }
+
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; transition: background 0.4s ease; }
+    nav.scrolled { background:rgba(10,12,15,0.92); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.06); }
+    .nav-link { color:rgba(255,255,255,0.6); font-size:.85rem; font-weight:500; letter-spacing:.04em; transition:color .2s; text-decoration:none; }
+    .nav-link:hover { color:#fff; }
+    .logo-img { height:40px; width:auto; filter:brightness(1.15) drop-shadow(0 0 8px rgba(249,115,22,.5)); transition:filter .3s; }
+
+    .glass {
+      background: rgba(17,22,32,.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+    }
+    .glass-raised {
+      background: rgba(24,33,47,.65);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px;
+    }
+
+    .btn-orange {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: .9rem;
+      background: linear-gradient(135deg,#f97316,#f5c842);
+      color: #000; border: none; cursor: pointer;
+      transition: opacity .2s, transform .2s cubic-bezier(.16,1,.3,1);
+      text-decoration: none;
+    }
+    .btn-orange:hover { opacity:.9; transform:translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: .9rem;
+      color: #e8edf2; border: 1px solid rgba(255,255,255,.15); background: transparent;
+      cursor: pointer; transition: border-color .2s, background .2s; text-decoration: none;
+    }
+    .btn-ghost:hover { border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.05); }
+
+    .fade-up { opacity:0; transform:translateY(24px); transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+    .fade-up.visible { opacity:1; transform:none; }
+
+    /* Review card */
+    .review-card {
+      background: rgba(17,22,32,.6);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 20px;
+      transition: border-color .2s, transform .2s;
+    }
+    .review-card:hover { border-color: rgba(255,255,255,.14); transform: translateY(-1px); }
+
+    /* Stars */
+    .stars { color: #f5c842; font-size: .9rem; letter-spacing: .05em; }
+
+    /* Gate overlay */
+    .gate-overlay {
+      position: relative; overflow: hidden; border-radius: 16px;
+    }
+    .gate-overlay::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(10,12,15,.95) 55%, rgba(10,12,15,1) 100%);
+      pointer-events: none; border-radius: 16px;
+    }
+
+    /* Form inputs */
+    .form-input {
+      width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px; padding: 11px 14px; color: #e8edf2; font-size: .9rem;
+      transition: border-color .2s, background .2s; outline: none;
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+    .form-input:focus { border-color: rgba(245,200,66,.4); background: rgba(255,255,255,.07); }
+    .form-input::placeholder { color: #6b7d93; }
+    select.form-input option { background: #111620; }
+    textarea.form-input { resize: vertical; min-height: 90px; }
+
+    .form-label { display: block; font-size: .8rem; font-weight: 600; color: #9ca3af; margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; }
+
+    /* Privacy badge */
+    .privacy-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 999px; font-size: .73rem; font-weight: 600;
+      background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.2); color: #34d399;
+    }
+
+    /* Airline filter chip */
+    .filter-chip {
+      padding: 6px 14px; border-radius: 999px; font-size: .78rem; font-weight: 600;
+      border: 1px solid rgba(255,255,255,.1); color: #6b7d93; background: transparent;
+      cursor: pointer; transition: all .15s; white-space: nowrap;
+    }
+    .filter-chip.active { color: #e8edf2; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+    .filter-chip:hover:not(.active) { color: #c5d5e8; border-color: rgba(255,255,255,.15); }
+
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#0a0c0f; }
+    ::-webkit-scrollbar-thumb { background:#18212f; border-radius:3px; }
+    footer { background:#060809; border-top:1px solid rgba(255,255,255,.05); }
+
+    /* Theme toggle */
+    .theme-toggle { display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.07);color:#e8edf2;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .2s,color .2s,border-color .2s;flex-shrink:0; }
+    [data-theme="light"] .theme-toggle { background:rgba(0,0,0,.06);color:#0f172a;border-color:rgba(0,0,0,.13); }
+
+    /* Light mode overrides */
+    [data-theme="light"] body { background:#f3f5f8 !important; color:#0f172a !important; }
+    [data-theme="light"] body::before { opacity:.03; }
+    /* Nav */
+    [data-theme="light"] nav { background:rgba(243,245,248,.95) !important; backdrop-filter:blur(16px); border-bottom:1px solid rgba(0,0,0,.07) !important; }
+    [data-theme="light"] nav.scrolled { background:rgba(243,245,248,.98) !important; }
+    [data-theme="light"] .nav-link { color:rgba(15,23,42,.55) !important; }
+    [data-theme="light"] .nav-link:hover { color:#0f172a !important; }
+    /* Hero */
+    [data-theme="light"] #hero-section { background:linear-gradient(160deg,#fff9ee 0%,#f3f5f8 60%) !important; }
+    [data-theme="light"] #hero-section h1 { color:#0f172a !important; }
+    [data-theme="light"] #hero-section .text-muted { color:#64748b !important; }
+    /* Stats bar */
+    [data-theme="light"] #stats-bar { background:#fff !important; border-top:1px solid rgba(0,0,0,.07) !important; border-bottom:1px solid rgba(0,0,0,.07) !important; }
+    [data-theme="light"] #stats-bar .text-muted { color:#64748b !important; }
+    /* Cards */
+    [data-theme="light"] .glass { background:rgba(255,255,255,.9) !important; border-color:rgba(0,0,0,.08) !important; box-shadow:0 2px 12px rgba(0,0,0,.06) !important; }
+    [data-theme="light"] .glass-raised { background:#fff !important; border-color:rgba(0,0,0,.1) !important; box-shadow:0 4px 20px rgba(0,0,0,.08) !important; }
+    /* Privacy section */
+    [data-theme="light"] .rounded-2xl[style*="rgba(52,211,153"] { background:rgba(16,185,129,.06) !important; border-color:rgba(16,185,129,.2) !important; }
+    /* Review section */
+    [data-theme="light"] #review-section { background:#eef0f4 !important; border-top:1px solid rgba(0,0,0,.07) !important; }
+    [data-theme="light"] .review-card { background:#fff !important; border-color:rgba(0,0,0,.08) !important; box-shadow:0 2px 8px rgba(0,0,0,.06) !important; }
+    [data-theme="light"] .review-card:hover { border-color:rgba(0,0,0,.14) !important; box-shadow:0 4px 16px rgba(0,0,0,.1) !important; }
+    /* Gate overlay — light version */
+    [data-theme="light"] #gate-panel { background:linear-gradient(to bottom, transparent 0%, rgba(238,240,244,.95) 40%, rgba(238,240,244,1) 100%) !important; }
+    [data-theme="light"] #gate-panel .glass-raised { background:rgba(255,255,255,.97) !important; border-color:rgba(245,200,66,.35) !important; box-shadow:0 8px 32px rgba(0,0,0,.12) !important; }
+    [data-theme="light"] #gate-panel .text-muted { color:#64748b !important; }
+    /* Chips */
+    [data-theme="light"] .filter-chip { border-color:rgba(0,0,0,.12) !important; color:#64748b !important; }
+    [data-theme="light"] .filter-chip.active { color:#0f172a !important; background:rgba(0,0,0,.07) !important; border-color:rgba(0,0,0,.18) !important; }
+    /* Form inputs */
+    [data-theme="light"] .form-input { background:rgba(0,0,0,.04) !important; border-color:rgba(0,0,0,.12) !important; color:#0f172a !important; }
+    [data-theme="light"] .form-input:focus { border-color:rgba(200,160,0,.5) !important; background:#fff !important; }
+    [data-theme="light"] .form-input::placeholder { color:#94a3b8 !important; }
+    [data-theme="light"] select.form-input option { background:#fff !important; color:#0f172a !important; }
+    /* Privacy badge */
+    [data-theme="light"] .privacy-badge { background:rgba(16,185,129,.07) !important; border-color:rgba(16,185,129,.22) !important; color:#059669 !important; }
+    /* Modal */
+    [data-theme="light"] .modal-box { background:#f8fafc !important; border-color:rgba(0,0,0,.1) !important; }
+    [data-theme="light"] .cat-row { border-bottom-color:rgba(0,0,0,.07) !important; }
+    [data-theme="light"] .confirm-score-bar { background:rgba(0,0,0,.08) !important; }
+    /* Footer */
+    [data-theme="light"] footer { background:#e8ebf0 !important; border-top-color:rgba(0,0,0,.08) !important; }
+    [data-theme="light"] footer .text-muted { color:#64748b !important; }
+    [data-theme="light"] footer a.hover\:text-text { color:#64748b !important; }
+    /* Muted text global */
+    [data-theme="light"] .text-muted { color:#64748b !important; }
+
+    /* ── Modal ────────────────────────────────────────────────── */
+    .modal-backdrop {
+      position:fixed; inset:0; z-index:999;
+      background:rgba(5,7,10,.85);
+      backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:center;
+      padding:20px;
+      opacity:0; pointer-events:none;
+      transition:opacity .25s ease;
+    }
+    .modal-backdrop.open { opacity:1; pointer-events:all; }
+    .modal-box {
+      position:relative; width:100%; max-width:620px; max-height:90vh;
+      overflow-y:auto;
+      background:#111620;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:36px 32px;
+      transform:translateY(20px) scale(.98);
+      transition:transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    [data-theme="light"] .modal-box { background:#fff; border-color:rgba(0,0,0,.1); }
+    .modal-backdrop.open .modal-box { transform:none; }
+    .modal-close {
+      position:absolute; top:16px; right:16px;
+      width:32px; height:32px; border-radius:8px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+      color:#9ca3af; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .15s, color .15s;
+    }
+    [data-theme="light"] .modal-close { background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.1); color:#6b7d93; }
+    .modal-close:hover { background:rgba(255,255,255,.12); color:#e8edf2; }
+    /* Steps indicator */
+    .step-dots { display:flex; align-items:center; gap:6px; margin-bottom:28px; }
+    .step-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.12); transition:background .2s, width .2s; }
+    .step-dot.active { background:#f5c842; width:24px; border-radius:4px; }
+    .step-dot.done { background:#34d399; }
+    [data-theme="light"] .step-dot { background:rgba(0,0,0,.1); }
+    /* Star rating interactive */
+    .star-group { display:flex; flex-direction:row-reverse; gap:4px; justify-content:flex-end; }
+    .star-group input { display:none; }
+    .star-group label {
+      font-size:1.3rem; color:rgba(255,255,255,.15); cursor:pointer;
+      transition:color .1s, transform .1s;
+    }
+    [data-theme="light"] .star-group label { color:rgba(0,0,0,.12); }
+    .star-group label:hover,
+    .star-group label:hover ~ label,
+    .star-group input:checked ~ label { color:#f5c842; }
+    .star-group label:hover { transform:scale(1.15); }
+    /* Keyword chips */
+    .kw-chip {
+      padding:4px 12px; border-radius:999px; font-size:.75rem; font-weight:600;
+      border:1px solid rgba(255,255,255,.15); color:#9ca3af; background:transparent;
+      cursor:pointer; transition:all .15s; white-space:nowrap;
+    }
+    .kw-chip.active { color:#f5c842; background:rgba(245,200,66,.1); border-color:rgba(245,200,66,.3); }
+    [data-theme="light"] .kw-chip { border-color:rgba(0,0,0,.14); color:#6b7d93; }
+    [data-theme="light"] .kw-chip.active { color:#c89500; background:rgba(200,149,0,.1); border-color:rgba(200,149,0,.35); }
+    /* Salary inputs inline */
+    .salary-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    /* Char counter */
+    .char-counter { font-size:.73rem; color:#6b7d93; text-align:right; margin-top:4px; }
+    .char-counter.ok { color:#34d399; }
+    /* Confirm score */
+    .confirm-score-bar { height:6px; border-radius:3px; background:rgba(255,255,255,.08); overflow:hidden; }
+    .confirm-score-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#f97316,#f5c842); transition:width .4s ease; }
+    [data-theme="light"] .confirm-score-bar { background:rgba(0,0,0,.08); }
+    /* Modal sections */
+    .modal-section { margin-bottom:20px; }
+    .modal-section-title { font-size:.78rem; font-weight:700; color:#9ca3af; letter-spacing:.07em; text-transform:uppercase; margin-bottom:12px; }
+    [data-theme="light"] .modal-section-title { color:#6b7d93; }
+    /* Category row */
+    .cat-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+    [data-theme="light"] .cat-row { border-bottom-color:rgba(0,0,0,.06); }
+    .cat-row:last-child { border-bottom:none; }
+    .cat-label { font-size:.85rem; font-weight:500; flex:1; }
+  </style>
+</head>
+<body class="relative">
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-[68px]">
+    <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+      <img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img" />
+    </a>
+    <div class="hidden md:flex items-center gap-7">
+      <a href="index.html#compare" class="nav-link">日本 vs 海外</a>
+      <a href="index.html#ranking" class="nav-link">年収ランキング</a>
+      <a href="world-airlines.html" class="nav-link">世界の航空会社一覧</a>
+      <a href="index.html#jobs" class="nav-link">求人情報</a>
+      <a href="community.html" class="nav-link" style="color:#f5c842">コミュニティ</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="theme-toggle" class="theme-toggle" aria-label="ダーク/ライト切替"></button>
+      <a id="nav-auth-btn" href="login.html" class="btn-ghost" style="font-size:.82rem;padding:7px 14px">ログイン</a>
+      <button onclick="openModal()" class="btn-orange py-2 px-5 text-sm">口コミを投稿</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero-section" class="pt-[68px]">
+  <div class="relative py-20 px-6 text-center overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(245,200,66,.06) 0%,transparent 70%)"></div>
+    <div class="relative max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-6 fade-up" style="background:rgba(245,200,66,.1);color:#f5c842;border:1px solid rgba(245,200,66,.2)">
+        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#f5c842"/></svg>
+        パイロット専用コミュニティ
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 fade-up" style="transition-delay:.05s">
+        リアルな年収・職場環境を<br>パイロット同士でシェア
+      </h1>
+      <p class="text-muted text-base leading-relaxed max-w-xl mx-auto mb-8 fade-up" style="transition-delay:.1s">
+        ANA・JAL・Emirates・Deltaなど各社の現役・元パイロットによる口コミ。<br>
+        <strong class="text-text">1件投稿すれば、全データを1ヶ月間閲覧できます。</strong>
+      </p>
+      <div class="flex flex-wrap justify-center gap-3 fade-up" style="transition-delay:.15s">
+        <span class="privacy-badge"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 1L1 3v3c0 2 2 3 4 3s4-1 4-3V3L5 1z" fill="none" stroke="#34d399" stroke-width="1"/></svg>完全匿名</span>
+        <span class="privacy-badge">年齢・会社名はぼかして表示</span>
+        <span class="privacy-badge">個人特定につながる情報は非表示</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATS BAR -->
+<section id="stats-bar" style="background:rgba(8,10,14,.8);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)">
+  <div class="max-w-4xl mx-auto px-6 py-5 grid grid-cols-3 gap-4 text-center">
+    <div class="fade-up">
+      <div class="text-2xl font-extrabold" style="color:#f5c842" id="stat-reviews">247</div>
+      <div class="text-xs text-muted mt-0.5">口コミ件数</div>
+    </div>
+    <div class="fade-up" style="transition-delay:.05s">
+      <div class="text-2xl font-extrabold" style="color:#3d9bff" id="stat-airlines">17</div>
+      <div class="text-xs text-muted mt-0.5">掲載航空会社</div>
+    </div>
+    <div class="fade-up" style="transition-delay:.1s">
+      <div class="text-2xl font-extrabold" style="color:#34d399" id="stat-members">1,203</div>
+      <div class="text-xs text-muted mt-0.5">登録メンバー</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="py-16 px-6">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-xl font-bold mb-8 fade-up">ギブ＆テイク モデル</h2>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="glass p-6 fade-up text-center">
+        <div class="text-3xl mb-3">✍️</div>
+        <div class="font-bold mb-2">①投稿する</div>
+        <p class="text-sm text-muted">自分の航空会社・職位・年収・口コミを1件投稿。匿名で安全。正確な年齢や個人情報は不要。</p>
+      </div>
+      <div class="glass p-6 fade-up text-center" style="transition-delay:.07s">
+        <div class="text-3xl mb-3">🔓</div>
+        <div class="font-bold mb-2">②ロック解除</div>
+        <p class="text-sm text-muted">投稿が承認されると、すべての口コミ・年収データへのアクセス権が<strong>1ヶ月間</strong>付与されます。</p>
+      </div>
+      <div class="glass p-6 fade-up text-center" style="transition-delay:.14s">
+        <div class="text-3xl mb-3">📊</div>
+        <div class="font-bold mb-2">③情報を得る</div>
+        <p class="text-sm text-muted">各社のリアルな年収・職場環境・昇格速度・人間関係をチェック。キャリア判断に活かす。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRIVACY NOTICE -->
+<section class="py-10 px-6">
+  <div class="max-w-4xl mx-auto fade-up">
+    <div class="rounded-2xl p-6" style="background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.12)">
+      <div class="flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(52,211,153,.12)">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 6v5c0 4 3 6.5 7 7 4-.5 7-3 7-7V6L10 2z" stroke="#34d399" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="font-bold mb-2" style="color:#34d399">匿名性・安全への取り組み</div>
+          <ul class="text-sm text-muted space-y-1.5 leading-relaxed">
+            <li>• <strong class="text-text">正確な年齢は表示しない</strong> — 「30代前半」「40代」などの区分で表示します</li>
+            <li>• <strong class="text-text">在籍会社名は選択式</strong> — 自由入力テキストで社名を特定できる表現は禁止</li>
+            <li>• <strong class="text-text">具体的な路線・基地は非表示</strong> — 「国際線」「国内線」の区分のみ掲載</li>
+            <li>• <strong class="text-text">個人を特定できる口コミは非掲載</strong> — モデレーションにより確認します</li>
+            <li>• <strong class="text-text">IPアドレスは記録しません</strong> — 匿名投稿を技術的に保証します</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- REVIEW FEED -->
+<section id="review-section" class="py-12 px-6" style="background:rgba(8,10,14,.5);border-top:1px solid rgba(255,255,255,.04)">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="flex items-center justify-between mb-6 fade-up">
+      <h2 class="text-xl font-bold">口コミ一覧</h2>
+      <span id="unlock-badge" class="text-xs text-muted hidden-when-locked">
+        <span class="privacy-badge">🔓 1ヶ月アクセス有効</span>
+      </span>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="flex flex-wrap gap-2 mb-6 fade-up" style="transition-delay:.05s">
+      <button class="filter-chip active" onclick="filterReviews(this,'all')">すべて</button>
+      <button class="filter-chip" onclick="filterReviews(this,'ana')" style="--c:#3d9bff">ANA</button>
+      <button class="filter-chip" onclick="filterReviews(this,'jal')" style="--c:#e8192c">JAL</button>
+      <button class="filter-chip" onclick="filterReviews(this,'delta')">Delta</button>
+      <button class="filter-chip" onclick="filterReviews(this,'emirates')">Emirates</button>
+      <button class="filter-chip" onclick="filterReviews(this,'qatar')">Qatar</button>
+      <button class="filter-chip" onclick="filterReviews(this,'united')">United</button>
+    </div>
+
+    <!-- Gate wrapper: blurs bottom rows if not unlocked -->
+    <div id="review-feed-wrapper" class="relative">
+
+      <!-- Reviews list -->
+      <div id="review-feed" class="space-y-4 fade-up" style="transition-delay:.1s">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Gate overlay (shown if not unlocked) -->
+      <div id="gate-panel" class="absolute bottom-0 left-0 right-0 pt-32 pb-8 text-center" style="background:linear-gradient(to bottom, transparent 0%, rgba(10,12,15,.97) 40%, rgba(10,12,15,1) 100%);border-radius:0 0 16px 16px">
+        <div class="inline-block glass-raised px-8 py-6 rounded-2xl max-w-md mx-auto" style="border-color:rgba(245,200,66,.2)">
+          <div class="text-2xl mb-2">🔒</div>
+          <div class="font-bold text-lg mb-2">全ての口コミを見るには</div>
+          <p class="text-sm text-muted mb-5">自分の年収・口コミを1件投稿すると<br>すべてのデータを<strong class="text-text">1ヶ月間無料で</strong>閲覧できます</p>
+          <button onclick="openModal()" class="btn-orange">口コミを投稿して解放する
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mt-4 text-xs text-muted">完全無料・匿名・個人情報不要</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- POST FORM (legacy – hidden, replaced by modal) -->
+<section id="post" class="py-20 px-6 border-t border-white/[0.05]" style="display:none">
+  <div class="max-w-2xl mx-auto">
+
+    <div class="fade-up mb-8">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold" style="background:linear-gradient(135deg,#f97316,#f5c842);color:#000;font-size:1rem">✍</div>
+        <h2 class="text-2xl font-bold">口コミを投稿する</h2>
+      </div>
+      <p class="text-sm text-muted ml-12">投稿内容は個人が特定されないよう編集・表示されます。投稿後、すべてのデータへのアクセスが1ヶ月間解放されます。</p>
+    </div>
+
+    <div class="glass p-8 fade-up" style="transition-delay:.08s">
+
+      <div id="form-success" class="hidden text-center py-8">
+        <div class="text-5xl mb-4">🎉</div>
+        <div class="text-xl font-bold mb-2">投稿ありがとうございます！</div>
+        <p class="text-muted text-sm mb-6">口コミが承認されました。全データへのアクセスが1ヶ月間解放されました。</p>
+        <button onclick="unlockAccess()" class="btn-orange">すべての口コミを見る
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <form id="review-form" onsubmit="submitReview(event)">
+
+        <!-- Row 1: Airline + Position -->
+        <div class="grid sm:grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="form-label">航空会社</label>
+            <select class="form-input" id="f-airline" required>
+              <option value="">選択してください</option>
+              <option value="ana">ANA（全日本空輸）</option>
+              <option value="jal">JAL（日本航空）</option>
+              <option value="skymark">Skymark Airlines</option>
+              <option value="zipair">ZIPAIR Tokyo</option>
+              <option value="peach">Peach Aviation</option>
+              <option value="jetstar">Jetstar Japan</option>
+              <option value="spring">Spring Japan</option>
+              <option value="delta">Delta Air Lines</option>
+              <option value="united">United Airlines</option>
+              <option value="american">American Airlines</option>
+              <option value="southwest">Southwest Airlines</option>
+              <option value="emirates">Emirates</option>
+              <option value="qatar">Qatar Airways</option>
+              <option value="etihad">Etihad Airways</option>
+              <option value="singapore">Singapore Airlines</option>
+              <option value="cathay">Cathay Pacific</option>
+              <option value="lufthansa">Lufthansa</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">職位</label>
+            <select class="form-input" id="f-position" required>
+              <option value="">選択してください</option>
+              <option value="captain">機長（Captain）</option>
+              <option value="fo">副操縦士（First Officer）</option>
+              <option value="cadet">訓練生（Cadet）</option>
+              <option value="former">元乗務員</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Salary + Experience -->
+        <div class="grid sm:grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="form-label">年収（万円・概算）</label>
+            <input type="number" class="form-input" id="f-salary" placeholder="例: 2800" min="500" max="15000" required />
+            <div class="text-xs text-muted mt-1.5">※ 100万円単位での概算で構いません（例：2800）</div>
+          </div>
+          <div>
+            <label class="form-label">経験年数（おおよそ）</label>
+            <select class="form-input" id="f-experience">
+              <option value="">選択してください</option>
+              <option value="1-3">1〜3年</option>
+              <option value="4-7">4〜7年</option>
+              <option value="8-15">8〜15年</option>
+              <option value="16+">16年以上</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Rating -->
+        <div class="mb-5">
+          <label class="form-label">総合評価</label>
+          <div class="flex gap-3 mt-1">
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="rating" value="5" class="accent-yellow-400" required /> <span style="color:#f5c842">★★★★★</span> 5 — 非常に良い
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="rating" value="4" /> <span style="color:#f5c842">★★★★</span>☆ 4
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="rating" value="3" /> <span style="color:#f5c842">★★★</span>☆☆ 3
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="rating" value="2" /> <span style="color:#f5c842">★★</span>☆☆☆ 2
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm">
+              <input type="radio" name="rating" value="1" /> <span style="color:#f5c842">★</span>☆☆☆☆ 1
+            </label>
+          </div>
+        </div>
+
+        <!-- Comment -->
+        <div class="mb-5">
+          <label class="form-label">口コミ（年収・環境・訓練・昇格など）</label>
+          <textarea class="form-input" id="f-comment" placeholder="例: 機長昇格後の年収は機種によって大きく変わります。B777系は手当が厚く、実質¥3,000万超も。訓練体制は充実していますが昇格審査は厳しめです。" required minlength="30"></textarea>
+          <div class="text-xs text-muted mt-1.5">30文字以上 / 個人を特定できる内容（名前・特定の路線・正確な生年月日など）はご遠慮ください</div>
+        </div>
+
+        <!-- Privacy reminder -->
+        <div class="rounded-xl p-4 mb-6" style="background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.1)">
+          <div class="flex items-start gap-3">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="flex-shrink-0 mt-0.5"><path d="M8 2L2 5v4c0 3 2 5 6 5s6-2 6-5V5L8 2z" stroke="#34d399" stroke-width="1.2"/></svg>
+            <div class="text-xs text-muted leading-relaxed">
+              <strong class="text-text">プライバシー保護について：</strong>
+              投稿された年収は100万円単位に丸めて表示します。年齢・在籍期間は区分（例：30代・10年超）で表示し、正確な数値は掲載しません。個人が特定できると判断された投稿はモデレーションにより非掲載となります。
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-orange w-full justify-center text-base py-4">
+          投稿して全データのアクセスを解放する（1ヶ月間）
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="text-center text-xs text-muted mt-3">完全無料・登録不要・匿名投稿</p>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── REVIEW MODAL ───────────────────────────────────────── -->
+<div id="review-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="口コミ投稿">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="閉じる">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+
+    <!-- Step dots -->
+    <div class="step-dots">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-confirm"></div>
+    </div>
+
+    <!-- ── STEP 1 ────────────────────────────────────────── -->
+    <div id="modal-step1">
+      <h2 class="text-xl font-bold mb-1">Step 1 — 基本情報と評価</h2>
+      <p class="text-sm text-muted mb-6">まず航空会社・職位を選び、7項目を★で評価してください。</p>
+
+      <div class="modal-section">
+        <div class="grid sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="form-label">航空会社</label>
+            <select class="form-input" id="m-airline">
+              <option value="">選択してください</option>
+              <option value="ana">ANA（全日本空輸）</option>
+              <option value="jal">JAL（日本航空）</option>
+              <option value="skymark">Skymark Airlines</option>
+              <option value="zipair">ZIPAIR Tokyo</option>
+              <option value="peach">Peach Aviation</option>
+              <option value="jetstar">Jetstar Japan</option>
+              <option value="spring">Spring Japan</option>
+              <option value="delta">Delta Air Lines</option>
+              <option value="united">United Airlines</option>
+              <option value="american">American Airlines</option>
+              <option value="southwest">Southwest Airlines</option>
+              <option value="emirates">Emirates</option>
+              <option value="qatar">Qatar Airways</option>
+              <option value="etihad">Etihad Airways</option>
+              <option value="singapore">Singapore Airlines</option>
+              <option value="cathay">Cathay Pacific</option>
+              <option value="lufthansa">Lufthansa</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">職位</label>
+            <div class="flex flex-wrap gap-2 mt-1">
+              <label class="kw-chip" id="pos-captain"><input type="radio" name="m-pos" value="captain" style="display:none" onchange="selectPos(this)">機長</label>
+              <label class="kw-chip" id="pos-fo"><input type="radio" name="m-pos" value="fo" style="display:none" onchange="selectPos(this)">副操縦士</label>
+              <label class="kw-chip" id="pos-cadet"><input type="radio" name="m-pos" value="cadet" style="display:none" onchange="selectPos(this)">訓練生</label>
+            </div>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="form-label">何年目</label>
+            <select class="form-input" id="m-years">
+              <option value="">選択してください</option>
+              <option value="1-5">1〜5年</option>
+              <option value="6-10">6〜10年</option>
+              <option value="11-15">11〜15年</option>
+              <option value="16-20">16〜20年</option>
+              <option value="25+">25年以上</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">入社形態</label>
+            <div class="flex gap-2 mt-1">
+              <label class="kw-chip" id="join-new"><input type="radio" name="m-join" value="new" style="display:none" onchange="selectJoin(this)">新卒</label>
+              <label class="kw-chip" id="join-mid"><input type="radio" name="m-join" value="mid" style="display:none" onchange="selectJoin(this)">中途</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">7項目評価（必須）</div>
+        <div id="cat-ratings">
+          <div class="cat-row"><span class="cat-label">企業カルチャー</span><div class="star-group" data-cat="0">
+            <input type="radio" name="cat0" value="5" id="c0s5"><label for="c0s5" title="5">★</label>
+            <input type="radio" name="cat0" value="4" id="c0s4"><label for="c0s4" title="4">★</label>
+            <input type="radio" name="cat0" value="3" id="c0s3"><label for="c0s3" title="3">★</label>
+            <input type="radio" name="cat0" value="2" id="c0s2"><label for="c0s2" title="2">★</label>
+            <input type="radio" name="cat0" value="1" id="c0s1"><label for="c0s1" title="1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">年収・給与の納得度</span><div class="star-group" data-cat="1">
+            <input type="radio" name="cat1" value="5" id="c1s5"><label for="c1s5">★</label>
+            <input type="radio" name="cat1" value="4" id="c1s4"><label for="c1s4">★</label>
+            <input type="radio" name="cat1" value="3" id="c1s3"><label for="c1s3">★</label>
+            <input type="radio" name="cat1" value="2" id="c1s2"><label for="c1s2">★</label>
+            <input type="radio" name="cat1" value="1" id="c1s1"><label for="c1s1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">福利厚生</span><div class="star-group" data-cat="2">
+            <input type="radio" name="cat2" value="5" id="c2s5"><label for="c2s5">★</label>
+            <input type="radio" name="cat2" value="4" id="c2s4"><label for="c2s4">★</label>
+            <input type="radio" name="cat2" value="3" id="c2s3"><label for="c2s3">★</label>
+            <input type="radio" name="cat2" value="2" id="c2s2"><label for="c2s2">★</label>
+            <input type="radio" name="cat2" value="1" id="c2s1"><label for="c2s1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">職場の人間関係の満足度</span><div class="star-group" data-cat="3">
+            <input type="radio" name="cat3" value="5" id="c3s5"><label for="c3s5">★</label>
+            <input type="radio" name="cat3" value="4" id="c3s4"><label for="c3s4">★</label>
+            <input type="radio" name="cat3" value="3" id="c3s3"><label for="c3s3">★</label>
+            <input type="radio" name="cat3" value="2" id="c3s2"><label for="c3s2">★</label>
+            <input type="radio" name="cat3" value="1" id="c3s1"><label for="c3s1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">訓練環境</span><div class="star-group" data-cat="4">
+            <input type="radio" name="cat4" value="5" id="c4s5"><label for="c4s5">★</label>
+            <input type="radio" name="cat4" value="4" id="c4s4"><label for="c4s4">★</label>
+            <input type="radio" name="cat4" value="3" id="c4s3"><label for="c4s3">★</label>
+            <input type="radio" name="cat4" value="2" id="c4s2"><label for="c4s2">★</label>
+            <input type="radio" name="cat4" value="1" id="c4s1"><label for="c4s1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">運航環境</span><div class="star-group" data-cat="5">
+            <input type="radio" name="cat5" value="5" id="c5s5"><label for="c5s5">★</label>
+            <input type="radio" name="cat5" value="4" id="c5s4"><label for="c5s4">★</label>
+            <input type="radio" name="cat5" value="3" id="c5s3"><label for="c5s3">★</label>
+            <input type="radio" name="cat5" value="2" id="c5s2"><label for="c5s2">★</label>
+            <input type="radio" name="cat5" value="1" id="c5s1"><label for="c5s1">★</label>
+          </div></div>
+          <div class="cat-row"><span class="cat-label">スケジュール変更の多さ</span><div class="star-group" data-cat="6">
+            <input type="radio" name="cat6" value="5" id="c6s5"><label for="c6s5">★</label>
+            <input type="radio" name="cat6" value="4" id="c6s4"><label for="c6s4">★</label>
+            <input type="radio" name="cat6" value="3" id="c6s3"><label for="c6s3">★</label>
+            <input type="radio" name="cat6" value="2" id="c6s2"><label for="c6s2">★</label>
+            <input type="radio" name="cat6" value="1" id="c6s1"><label for="c6s1">★</label>
+          </div></div>
+        </div>
+      </div>
+
+      <div id="step1-error" class="text-sm mb-4" style="color:#f97316;display:none"></div>
+      <button onclick="goStep2()" class="btn-orange w-full justify-center text-base py-3">
+        次へ — 年収・口コミ入力
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- ── STEP 2 ────────────────────────────────────────── -->
+    <div id="modal-step2" style="display:none">
+      <h2 class="text-xl font-bold mb-1">Step 2 — 年収・口コミ詳細</h2>
+      <p class="text-sm text-muted mb-6">年収の内訳と、各カテゴリの口コミを入力してください。</p>
+
+      <!-- Salary inputs -->
+      <div class="modal-section">
+        <div class="modal-section-title">年収内訳（万円・概算）</div>
+        <div class="salary-row">
+          <div>
+            <label class="form-label">月給</label>
+            <input type="number" class="form-input" id="m-monthly" placeholder="例: 150" min="0" max="9999" />
+          </div>
+          <div>
+            <label class="form-label">残業代</label>
+            <input type="number" class="form-input" id="m-overtime" placeholder="例: 20" min="0" max="9999" />
+          </div>
+          <div>
+            <label class="form-label">賞与（年計）</label>
+            <input type="number" class="form-input" id="m-bonus" placeholder="例: 300" min="0" max="9999" />
+          </div>
+        </div>
+        <div id="m-salary-total" class="text-xs text-muted mt-2"></div>
+      </div>
+
+      <!-- Text areas with chips -->
+      <div class="modal-section">
+        <div class="modal-section-title">口コミ（7カテゴリ）</div>
+        <div class="space-y-5">
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="form-label" style="margin-bottom:0">給与制度</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-pay')">昇給</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-pay')">賞与</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-pay')">各種手当</button>
+              </div>
+            </div>
+            <textarea class="form-input" id="t-pay" rows="2" placeholder="例：昇給は年1回。各種手当は充実している。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="form-label" style="margin-bottom:0">評価制度</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-eval')">副操縦士昇格</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-eval')">機長昇格</button>
+              </div>
+            </div>
+            <textarea class="form-input" id="t-eval" rows="2" placeholder="例：機長昇格は平均12年。審査は厳しめ。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="form-label" style="margin-bottom:0">福利厚生</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-benefit')">EF</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-benefit')">ステイ手当</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-benefit')">ホテルグレード</button>
+              </div>
+            </div>
+            <textarea class="form-input" id="t-benefit" rows="2" placeholder="例：EFは本人・家族利用可。ホテルはビジネスクラス並み。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <label class="form-label">勤務時間・休日休暇</label>
+            <textarea class="form-input" id="t-schedule" rows="2" placeholder="例：月10〜12日飛行。休暇取得はしやすい環境。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <label class="form-label">運航環境</label>
+            <textarea class="form-input" id="t-ops" rows="2" placeholder="例：機材は新しく整備は良い。デスパッチャーとの連携もスムーズ。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="form-label" style="margin-bottom:0">ダイバーシティ</label>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-diversity')">性別</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-diversity')">国籍</button>
+                <button type="button" class="kw-chip" onclick="insertChip(this,'t-diversity')">ワークスタイル</button>
+              </div>
+            </div>
+            <textarea class="form-input" id="t-diversity" rows="2" placeholder="例：外国籍パイロットも多く、英語でのコミュニケーションが日常。" oninput="updateCounter()"></textarea>
+          </div>
+
+          <div>
+            <label class="form-label">経営陣へ提案</label>
+            <textarea class="form-input" id="t-mgmt" rows="2" placeholder="例：給与体系の透明化と、昇格スピードの改善を望む。" oninput="updateCounter()"></textarea>
+          </div>
+
+        </div>
+        <div class="flex items-center justify-between mt-3">
+          <div id="char-counter-display" class="char-counter">合計 0 文字 / 200文字以上で確認画面へ</div>
+        </div>
+      </div>
+
+      <div id="step2-error" class="text-sm mb-4" style="color:#f97316;display:none"></div>
+      <div class="flex gap-3">
+        <button onclick="goStep1()" class="btn-ghost flex-1 justify-center py-3">← 戻る</button>
+        <button onclick="goConfirm()" class="btn-orange flex-1 justify-center py-3">
+          確認画面へ →
+        </button>
+      </div>
+    </div>
+
+    <!-- ── CONFIRM ─────────────────────────────────────────── -->
+    <div id="modal-confirm" style="display:none">
+      <h2 class="text-xl font-bold mb-1">投稿内容の確認</h2>
+      <p class="text-sm text-muted mb-6">以下の内容で投稿します。問題なければ「投稿する」を押してください。</p>
+
+      <!-- Big score display -->
+      <div class="text-center mb-8 py-6 rounded-2xl" style="background:rgba(245,200,66,.05);border:1px solid rgba(245,200,66,.15)">
+        <div class="text-xs text-muted mb-1 font-semibold letter-spacing-.02em">総合スコア</div>
+        <div id="confirm-avg-score" class="text-5xl font-extrabold" style="color:#f5c842;letter-spacing:-.03em">—</div>
+        <div id="confirm-stars-visual" class="text-2xl mt-1" style="color:#f5c842;letter-spacing:.08em"></div>
+        <div class="text-xs text-muted mt-1">MAX ★5</div>
+      </div>
+
+      <!-- Category breakdown -->
+      <div class="modal-section">
+        <div class="modal-section-title">カテゴリ別スコア</div>
+        <div id="confirm-cats" class="space-y-2"></div>
+      </div>
+
+      <!-- Basic info -->
+      <div class="modal-section">
+        <div class="modal-section-title">基本情報</div>
+        <div id="confirm-info" class="text-sm space-y-1.5"></div>
+      </div>
+
+      <!-- Text previews -->
+      <div class="modal-section">
+        <div class="modal-section-title">口コミプレビュー</div>
+        <div id="confirm-texts" class="text-sm text-muted space-y-2"></div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="backToStep2()" class="btn-ghost flex-1 justify-center py-3">← 修正する</button>
+        <button onclick="submitModal()" class="btn-orange flex-1 justify-center py-3">
+          投稿して解放する 🔓
+        </button>
+      </div>
+    </div>
+
+    <!-- ── SUCCESS ─────────────────────────────────────────── -->
+    <div id="modal-success" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:3.5rem;margin-bottom:16px">🎉</div>
+      <div class="text-xl font-bold mb-2">投稿ありがとうございます！</div>
+      <p class="text-muted text-sm mb-8">口コミが承認されました。全データへのアクセスが<br><strong class="text-text">1ヶ月間</strong>解放されました。</p>
+      <button onclick="closeModal();unlockAccess();" class="btn-orange justify-center px-8 py-3">
+        すべての口コミを見る →
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer class="py-10">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="h-7 w-auto opacity-70"/></a>
+      <div class="flex gap-6 text-sm text-muted">
+        <a href="index.html" class="hover:text-text transition-colors">ホーム</a>
+        <a href="index.html#compare" class="hover:text-text transition-colors">年収比較</a>
+        <a href="index.html#jobs" class="hover:text-text transition-colors">求人情報</a>
+        <a href="community.html" class="hover:text-text transition-colors" style="color:#f5c842">コミュニティ</a>
+      </div>
+      <div class="text-xs text-muted">© 2026 PILOT VALUE. 掲載情報は参考値です。</div>
+    </div>
+  </div>
+<div style="border-top:1px solid rgba(255,255,255,.06);margin-top:20px;padding-top:16px;text-align:center"><div style="display:flex;flex-wrap:wrap;justify-content:center"><a href="guide.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ご利用案内</a><a href="policy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">運営ポリシー</a><a href="terms.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">利用規約</a><a href="privacy.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">プライバシーポリシー</a><a href="personal-data.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">パーソナルデータの扱い</a><a href="help.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.08);transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">ヘルプ</a><a href="sitemap.html" style="color:#6b7d93;font-size:.72rem;padding:5px 14px;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#e8edf2'" onmouseout="this.style.color='#6b7d93'">サイトマップ</a></div></div></footer>
+
+
+<script>
+// ── Nav scroll ────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── Review data ───────────────────────────────────────────────
+const AIRLINE_COLORS = {
+  ana: '#3d9bff', jal: '#e8192c', skymark: '#0095db', zipair: '#22d3ee',
+  peach: '#f96c9f', jetstar: '#f0851a', spring: '#e83030',
+  delta: '#e01933', united: '#005daa', american: '#c8102e', southwest: '#f9b612',
+  emirates: '#c4943b', qatar: '#8d1b3d', etihad: '#c4943b',
+  singapore: '#0072ce', cathay: '#006564', lufthansa: '#f5c842'
+};
+
+const AIRLINE_LABELS = {
+  ana:'ANA', jal:'JAL', skymark:'Skymark', zipair:'ZIPAIR', peach:'Peach',
+  jetstar:'Jetstar Japan', spring:'Spring Japan', delta:'Delta', united:'United',
+  american:'American', southwest:'Southwest', emirates:'Emirates', qatar:'Qatar Airways',
+  etihad:'Etihad', singapore:'Singapore Airlines', cathay:'Cathay Pacific', lufthansa:'Lufthansa'
+};
+
+// Seed reviews (shown to all, locked ones need unlock)
+const SEED_REVIEWS = [
+  { id:1, airline:'ana', position:'captain', salaryRange:'2,500〜3,000万', exp:'16年以上', rating:4,
+    comment:'機長年収は機種・年齢で大きく変わる。B777国際線で¥2,700〜2,800万が実態。各種手当含むと¥3,000万超も可能。安定性・退職金・年金は抜群。訓練費負担ゼロも大きい。', date:'2026.03', locked:false },
+  { id:2, airline:'emirates', position:'captain', salaryRange:'4,000〜5,000万', exp:'8〜15年', rating:5,
+    comment:'UAE所得税ゼロが最大のメリット。住宅・子供教育費（3人まで）が実質全額支給。日本の税引後と比較すると手取り実質2倍以上。ただし砂漠の生活と英語環境への適応は必要。', date:'2026.02', locked:false },
+  { id:3, airline:'delta', position:'fo', salaryRange:'3,200〜4,000万', exp:'4〜7年', rating:5,
+    comment:'Year5でも¥3,500万超。401k+利益配分で追加¥700万〜1,000万。英語と外国免許取得さえできれば、日本人でも十分狙える水準。昇格スピードは早い。', date:'2026.03', locked:false },
+  { id:4, airline:'jal', position:'captain', salaryRange:'2,400〜3,100万', exp:'16年以上', rating:4,
+    comment:'給与はANAと同水準。昇格スピードは機材によって異なる。A350は比較的新しく昇格枠もある。福利厚生・退職金制度は充実。ワークライフバランスは良好。', date:'2026.01', locked:true },
+  { id:5, airline:'qatar', position:'captain', salaryRange:'3,500〜4,500万', exp:'8〜15年', rating:3,
+    comment:'非課税は強力だが、スケジュールの柔軟性は低め。ドーハ拠点のため家族帯同の場合は生活費が高い。訓練体制は充実。機材はA350/A380/B777と多様。', date:'2026.02', locked:true },
+  { id:6, airline:'united', position:'captain', salaryRange:'7,000〜8,000万', exp:'16年以上', rating:5,
+    comment:'B777シニア機長で年収$500,000超。401k、医療保険、プロフィットシェアすべて一流。スケジュールも選択肢が豊富。入社後10年でここまで到達できる環境。', date:'2026.03', locked:true },
+  { id:7, airline:'ana', position:'fo', salaryRange:'1,600〜2,000万', exp:'4〜7年', rating:4,
+    comment:'副操縦士としての待遇は安定。機長昇格審査は厳しめだが、訓練費は全額会社負担。JAL比でFOの給与はやや高め。国際線配属になると手当で大きく変わる。', date:'2026.02', locked:true },
+  { id:8, airline:'singapore', position:'captain', salaryRange:'3,200〜4,000万', exp:'8〜15年', rating:4,
+    comment:'シンガポールの物価は高いが所得も高い。SGDベースの給与なので円安メリットあり。ジャンプシート文化がなく、機内の雰囲気はプロフェッショナル。昇格は完全年功序列。', date:'2026.01', locked:true },
+];
+
+// ── Unlock system ─────────────────────────────────────────────
+function isUnlocked() {
+  const expiry = localStorage.getItem('pv_unlock_expiry');
+  if (!expiry) return false;
+  return Date.now() < parseInt(expiry, 10);
+}
+
+function unlockAccess() {
+  const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
+  localStorage.setItem('pv_unlock_expiry', expiry.toString());
+  renderReviews(currentFilter);
+  document.getElementById('gate-panel').style.display = 'none';
+  document.getElementById('unlock-badge').classList.remove('hidden');
+  window.scrollTo({ top: document.getElementById('review-feed-wrapper').offsetTop - 100, behavior: 'smooth' });
+}
+
+// ── Render reviews ────────────────────────────────────────────
+let currentFilter = 'all';
+
+function filterReviews(btn, airline) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = airline;
+  renderReviews(airline);
+}
+
+function renderReviews(filter) {
+  const feed = document.getElementById('review-feed');
+  const unlocked = isUnlocked();
+  let reviews = filter === 'all' ? SEED_REVIEWS : SEED_REVIEWS.filter(r => r.airline === filter);
+
+  // Also include user-submitted reviews from localStorage
+  try {
+    const userReviews = JSON.parse(localStorage.getItem('pv_reviews') || '[]');
+    const mapped = userReviews.filter(r => filter === 'all' || r.airline === filter).map(r => {
+      const sal = r.salary > 0 ? Math.floor(r.salary/100)*100 + '万〜' + (Math.floor(r.salary/100)*100+100) + '万' : '非公開';
+      const rating = r.avgRating ? Math.round(r.avgRating) : (r.rating || 3);
+      const comment = [r.payText, r.evalText, r.benefitText, r.scheduleText, r.opsText].filter(Boolean).join('　') || r.comment || '';
+      return {
+        id: 'u' + r.ts, airline: r.airline, position: r.position,
+        salaryRange: sal, exp: r.years || r.experience || '—', rating, comment,
+        date: new Date(r.ts).toLocaleDateString('ja-JP', {year:'numeric',month:'2-digit'}).replace('/','.',).slice(0,7),
+        locked: false
+      };
+    });
+    reviews = [...mapped, ...reviews];
+  } catch(e) {}
+
+  const posLabel = { captain:'機長', fo:'副操縦士', cadet:'訓練生', former:'元乗務員' };
+
+  feed.innerHTML = reviews.map((r, i) => {
+    const color = AIRLINE_COLORS[r.airline] || '#6b7d93';
+    const label = AIRLINE_LABELS[r.airline] || r.airline;
+    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+    const blurred = r.locked && !unlocked;
+
+    return `<div class="review-card fade-up" style="transition-delay:${i * 0.04}s${r.locked && !unlocked ? ';filter:blur(4px);user-select:none;pointer-events:none' : ''}">
+      <div class="flex items-start gap-3 mb-3">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0" style="background:${color}22;color:${color}">${label.slice(0,3).toUpperCase()}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-semibold text-sm">${label}</span>
+            <span class="text-xs px-2 py-0.5 rounded" style="background:rgba(255,255,255,.06);color:#9ca3af">${posLabel[r.position] || r.position}</span>
+            <span class="stars text-xs">${stars}</span>
+          </div>
+          <div class="text-xs text-muted mt-0.5">経験 ${r.exp} · ${r.date}</div>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <div class="text-sm font-bold" style="color:${color}">${r.salaryRange}</div>
+          <div class="text-xs text-muted">年収（概算）</div>
+        </div>
+      </div>
+      <p class="text-sm text-muted leading-relaxed">${r.comment}</p>
+    </div>`;
+  }).join('');
+
+  // Show/hide gate
+  document.getElementById('gate-panel').style.display = unlocked ? 'none' : '';
+
+  // Re-observe new elements
+  document.querySelectorAll('.review-card.fade-up:not(.visible)').forEach(el => io.observe(el));
+}
+
+// ── Modal ─────────────────────────────────────────────────────
+const CAT_NAMES = ['企業カルチャー','年収・給与の納得度','福利厚生','職場の人間関係の満足度','訓練環境','運航環境','スケジュール変更の多さ'];
+const TEXT_IDS  = ['t-pay','t-eval','t-benefit','t-schedule','t-ops','t-diversity','t-mgmt'];
+const TEXT_LABELS = ['給与制度','評価制度','福利厚生','勤務時間・休日休暇','運航環境','ダイバーシティ','経営陣へ提案'];
+
+function openModal() {
+  document.getElementById('review-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  showStep('step1');
+}
+function closeModal() {
+  document.getElementById('review-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('review-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+function showStep(step) {
+  ['modal-step1','modal-step2','modal-confirm','modal-success'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('modal-' + step).style.display = '';
+  // Update dots
+  const stepMap = { step1: 0, step2: 1, confirm: 2, success: 3 };
+  const idx = stepMap[step] ?? 0;
+  ['dot-1','dot-2','dot-confirm'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.className = 'step-dot' + (i < idx ? ' done' : i === idx ? ' active' : '');
+  });
+  document.querySelector('.modal-box').scrollTop = 0;
+}
+
+function selectPos(radio) {
+  document.querySelectorAll('#pos-captain,#pos-fo,#pos-cadet').forEach(el => el.classList.remove('active'));
+  radio.closest('label').classList.add('active');
+}
+function selectJoin(radio) {
+  document.querySelectorAll('#join-new,#join-mid').forEach(el => el.classList.remove('active'));
+  radio.closest('label').classList.add('active');
+}
+
+function getCatRatings() {
+  return Array.from({length:7}, (_,i) => {
+    const checked = document.querySelector(`input[name="cat${i}"]:checked`);
+    return checked ? parseInt(checked.value, 10) : 0;
+  });
+}
+
+function goStep1() { showStep('step1'); }
+
+function goStep2() {
+  const err = document.getElementById('step1-error');
+  const airline = document.getElementById('m-airline').value;
+  const pos = document.querySelector('input[name="m-pos"]:checked');
+  const years = document.getElementById('m-years').value;
+  const cats = getCatRatings();
+  if (!airline) { err.textContent = '航空会社を選択してください。'; err.style.display=''; return; }
+  if (!pos) { err.textContent = '職位を選択してください。'; err.style.display=''; return; }
+  if (!years) { err.textContent = '何年目かを選択してください。'; err.style.display=''; return; }
+  const missing = cats.indexOf(0);
+  if (missing >= 0) { err.textContent = `「${CAT_NAMES[missing]}」の評価を入力してください。`; err.style.display=''; return; }
+  err.style.display = 'none';
+  showStep('step2');
+}
+
+function backToStep2() { showStep('step2'); }
+
+function totalChars() {
+  return TEXT_IDS.reduce((s, id) => s + (document.getElementById(id)?.value.trim().length || 0), 0);
+}
+
+function updateCounter() {
+  const total = totalChars();
+  const el = document.getElementById('char-counter-display');
+  el.textContent = `合計 ${total} 文字 / 200文字以上で確認画面へ`;
+  el.className = 'char-counter' + (total >= 200 ? ' ok' : '');
+}
+
+function insertChip(btn, textId) {
+  const ta = document.getElementById(textId);
+  const word = btn.textContent.trim();
+  if (!ta.value.includes(word)) {
+    ta.value = (ta.value ? ta.value.trimEnd() + '、' : '') + word;
+  }
+  btn.classList.toggle('active');
+  ta.focus();
+  updateCounter();
+}
+
+function goConfirm() {
+  const err = document.getElementById('step2-error');
+  const total = totalChars();
+  if (total < 200) {
+    err.textContent = `口コミの合計文字数が${total}文字です。200文字以上になるよう記入してください。`;
+    err.style.display = ''; return;
+  }
+  err.style.display = 'none';
+  buildConfirm();
+  showStep('confirm');
+}
+
+function starsStr(n) {
+  return '★'.repeat(Math.round(n)) + '☆'.repeat(5 - Math.round(n));
+}
+
+function buildConfirm() {
+  const cats = getCatRatings();
+  const avg = cats.reduce((a,b) => a+b, 0) / 7;
+  const avgStr = avg.toFixed(1);
+
+  document.getElementById('confirm-avg-score').textContent = avgStr;
+  document.getElementById('confirm-stars-visual').textContent = starsStr(avg);
+
+  // Category bars
+  document.getElementById('confirm-cats').innerHTML = cats.map((v,i) => `
+    <div>
+      <div class="flex justify-between text-xs mb-1"><span>${CAT_NAMES[i]}</span><span style="color:#f5c842;font-weight:700">${'★'.repeat(v)}${'☆'.repeat(5-v)} ${v}</span></div>
+      <div class="confirm-score-bar"><div class="confirm-score-fill" style="width:${v/5*100}%"></div></div>
+    </div>
+  `).join('');
+
+  // Basic info
+  const AIRLINE_LABELS_MAP = {ana:'ANA',jal:'JAL',skymark:'Skymark',zipair:'ZIPAIR',peach:'Peach',jetstar:'Jetstar Japan',spring:'Spring Japan',delta:'Delta',united:'United',american:'American',southwest:'Southwest',emirates:'Emirates',qatar:'Qatar Airways',etihad:'Etihad',singapore:'Singapore Airlines',cathay:'Cathay Pacific',lufthansa:'Lufthansa',other:'その他'};
+  const POS_MAP = {captain:'機長',fo:'副操縦士',cadet:'訓練生'};
+  const JOIN_MAP = {new:'新卒',mid:'中途'};
+  const airlineVal = document.getElementById('m-airline').value;
+  const posVal = document.querySelector('input[name="m-pos"]:checked')?.value;
+  const yearsVal = document.getElementById('m-years').value;
+  const joinVal = document.querySelector('input[name="m-join"]:checked')?.value;
+  const mon = document.getElementById('m-monthly').value;
+  const ot = document.getElementById('m-overtime').value;
+  const bon = document.getElementById('m-bonus').value;
+  const annualEst = ((+mon||0)*12 + (+ot||0)*12 + (+bon||0));
+  document.getElementById('confirm-info').innerHTML = `
+    <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">航空会社</span><span class="font-semibold">${AIRLINE_LABELS_MAP[airlineVal]||airlineVal}</span></div>
+    <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">職位</span><span class="font-semibold">${POS_MAP[posVal]||posVal||'—'}</span></div>
+    <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">何年目</span><span class="font-semibold">${yearsVal||'—'}年</span></div>
+    <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">入社形態</span><span class="font-semibold">${JOIN_MAP[joinVal]||'—'}</span></div>
+    <div class="flex justify-between py-1"><span class="text-muted">推定年収</span><span class="font-semibold" style="color:#f5c842">${annualEst > 0 ? Math.round(annualEst/100)*100 + '万円' : '入力なし'}</span></div>
+  `;
+
+  // Text previews
+  document.getElementById('confirm-texts').innerHTML = TEXT_IDS.map((id,i) => {
+    const v = document.getElementById(id).value.trim();
+    return v ? `<div><span class="font-semibold text-text">${TEXT_LABELS[i]}：</span>${v.slice(0,80)}${v.length>80?'…':''}</div>` : '';
+  }).filter(Boolean).join('');
+}
+
+// Supabase init
+const _sbC = supabase.createClient(
+  'https://vzgmnkrggrwtsrpqndsm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Z21ua3JnZ3J3dHNycHFuZHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzkwOTcsImV4cCI6MjA5MDAxNTA5N30.wE4cJbqeYGCgn5ZvHd80hYWgQuySKvOMJMbsJWOvmtw'
+);
+
+async function submitModal() {
+  const cats = getCatRatings();
+  const avg = cats.reduce((a,b) => a+b, 0) / 7;
+  const airlineVal = document.getElementById('m-airline').value;
+  const posVal  = document.querySelector('input[name="m-pos"]:checked')?.value || '';
+  const yearsVal= document.getElementById('m-years').value;
+  const joinVal = document.querySelector('input[name="m-join"]:checked')?.value || '';
+  const mon  = +document.getElementById('m-monthly').value  || 0;
+  const ot   = +document.getElementById('m-overtime').value || 0;
+  const bon  = +document.getElementById('m-bonus').value    || 0;
+  const salary = Math.round((mon*12 + ot*12 + bon) / 100) * 100;
+  const texts  = TEXT_IDS.map(id => document.getElementById(id).value.trim());
+
+  // 1. localStorageに保存（既存の動作を維持）
+  const reviews = JSON.parse(localStorage.getItem('pv_reviews') || '[]');
+  reviews.unshift({
+    airline: airlineVal, position: posVal, salary, years: yearsVal, join: joinVal,
+    cats, avgRating: +avg.toFixed(1),
+    payText: texts[0], evalText: texts[1], benefitText: texts[2],
+    scheduleText: texts[3], opsText: texts[4], diversityText: texts[5], mgmtText: texts[6],
+    ts: Date.now()
+  });
+  localStorage.setItem('pv_reviews', JSON.stringify(reviews));
+
+  const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+  localStorage.setItem('pv_unlock_expiry', expiry.toString());
+
+  // 2. Supabaseに保存
+  try {
+    const { data:{ session } } = await _sbC.auth.getSession();
+    const userId = session?.user?.id || null;
+    const email  = session?.user?.email || '';
+    await _sbC.from('reviews').insert({
+      user_id:      userId,
+      email:        email,
+      airline:      airlineVal,
+      position:     posVal,
+      years:        yearsVal,
+      join_type:    joinVal,
+      avg_rating:   +avg.toFixed(1),
+      salary_total: salary,
+      monthly:      mon,
+      overtime:     ot,
+      bonus:        bon,
+      comment:      texts[0] || texts.filter(Boolean).join(' / ')
+    });
+  } catch(e) { console.warn('Supabase save failed:', e); }
+
+  showStep('success');
+  renderReviews(currentFilter);
+  document.getElementById('gate-panel').style.display = 'none';
+  document.getElementById('unlock-badge').classList.remove('hidden');
+}
+
+// ── Theme toggle ──────────────────────────────────────────────
+const SUN_SVG_C = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+const MOON_SVG_C = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+function applyThemeC(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('pv-theme', t);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.innerHTML = t === 'dark' ? SUN_SVG_C : MOON_SVG_C;
+}
+(function(){ applyThemeC(localStorage.getItem('pv-theme') || 'dark'); })();
+document.getElementById('theme-toggle').addEventListener('click', function() {
+  applyThemeC(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+// ── IntersectionObserver ──────────────────────────────────────
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.01, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+setTimeout(() => { document.querySelectorAll('.fade-up:not(.visible)').forEach(el => el.classList.add('visible')); }, 300);
+
+// ── Init ──────────────────────────────────────────────────────
+renderReviews('all');
+if (isUnlocked()) {
+  document.getElementById('unlock-badge').classList.remove('hidden');
+}
+(function(){try{var u=JSON.parse(localStorage.getItem('pv_user')||'null');var b=document.getElementById('nav-auth-btn');if(!b)return;if(u&&u.name){b.textContent=u.name.replace(/[\s　].*/,'');b.href='profile.html';b.style.color='#f5c842';b.style.fontWeight='700';}}catch(e){}})();
+</script>
+
+<script src="search.js"></script>
+</body>
+</html>

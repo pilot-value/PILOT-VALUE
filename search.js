@@ -1,0 +1,319 @@
+/* ═══════════════════════════════════════════════════
+   PILOT VALUE — Global Airline Search
+   ═══════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  if (document.getElementById('pv-search-wrap')) return;
+
+  /* ── Path prefix (airline sub-pages need ../) ── */
+  var P = location.pathname.indexOf('/airlines/') >= 0 ? '../' : '';
+
+  /* ── Airline database ────────────────────────── */
+  var DB = [
+    /* ─ Japan — Major ─ */
+    {n:'全日本空輸（ANA）',     e:'All Nippon Airways',         g:'🇯🇵', t:['ANA','NH','全日空','ぜんにっくう','あな'],                  f:'airlines/ana.html'},
+    {n:'日本航空（JAL）',        e:'Japan Airlines',              g:'🇯🇵', t:['JAL','JL','じゃる','日本エアラインズ'],                    f:'airlines/jal.html'},
+    {n:'スカイマーク',           e:'Skymark Airlines',            g:'🇯🇵', t:['SKY','BC','すかいまーく'],                               f:'airlines/skymark.html'},
+    {n:'ZIPAIR Tokyo',           e:'ZIPAIR',                      g:'🇯🇵', t:['ZIP','ZG','ジップエア','じっぷ'],                        f:'airlines/zipair.html'},
+    {n:'ピーチ・アビエーション', e:'Peach Aviation',              g:'🇯🇵', t:['Peach','APJ','MM','ピーチ'],                            f:'airlines/peach.html'},
+    {n:'ジェットスター・ジャパン',e:'Jetstar Japan',              g:'🇯🇵', t:['JJP','GK','Jetstar','ジェットスター'],                   f:'airlines/jetstar-japan.html'},
+    {n:'スプリング・ジャパン',   e:'Spring Japan',                g:'🇯🇵', t:['SJO','春秋航空日本','春秋','スプリング'],                 f:'airlines/spring-japan.html'},
+    /* ─ Japan — Group/Regional ─ */
+    {n:'ジェイエア（J-AIR）',    e:'J-AIR',                      g:'🇯🇵', t:['JAI','JALグループ','jair'],                             f:'airlines/j-air.html'},
+    {n:'日本トランスオーシャン航空',e:'Japan Transocean Air',     g:'🇯🇵', t:['JTA','NU','那覇','トランスオーシャン'],                  f:'airlines/jta.html'},
+    {n:'日本エアコミューター',   e:'Japan Air Commuter',          g:'🇯🇵', t:['JAC','3X','鹿児島','えあこみゅーたー'],                  f:'airlines/jac.html'},
+    {n:'琉球エアーコミューター', e:'Ryukyu Air Commuter',         g:'🇯🇵', t:['RAC','沖縄','りゅうきゅう'],                            f:'airlines/rac.html'},
+    {n:'北海道エアシステム',     e:'Hokkaido Air System',         g:'🇯🇵', t:['HAC','NTH','北海道','ほっかいどう'],                    f:'airlines/hac.html'},
+    {n:'ANAウイングス',          e:'ANA Wings',                   g:'🇯🇵', t:['AKX','EH','ANAウィングス'],                            f:'airlines/ana-wings.html'},
+    {n:'エアジャパン',           e:'Air Japan',                   g:'🇯🇵', t:['AJX','エアージャパン'],                                 f:'airlines/airjapan.html'},
+    {n:'エア・ドゥ',             e:'AirDo',                       g:'🇯🇵', t:['ADO','HD','北海道国際航空','えあどぅ'],                  f:'airlines/airdo.html'},
+    {n:'ソラシドエア',           e:'Solaseed Air',                g:'🇯🇵', t:['VJ','SNJ','そらしど','九州'],                           f:'airlines/solaseed.html'},
+    {n:'スターフライヤー',       e:'Star Flyer',                  g:'🇯🇵', t:['SFJ','7G','StarFlyer','北九州'],                       f:'airlines/starflyer.html'},
+    {n:'フジドリームエアラインズ',e:'Fuji Dream Airlines',        g:'🇯🇵', t:['FDA','ふじどりーむ','静岡'],                            f:'airlines/fda.html'},
+    {n:'アイベックスエアラインズ',e:'Ibex Airlines',              g:'🇯🇵', t:['IBX','FW','アイベックス','仙台'],                       f:'airlines/ibex.html'},
+    {n:'トキエア',               e:'Toki Air',                    g:'🇯🇵', t:['TKI','とき','新潟'],                                   f:'airlines/toki-air.html'},
+    {n:'オリエンタルエアブリッジ',e:'Oriental Air Bridge',        g:'🇯🇵', t:['ORC','長崎','おりえんたる'],                            f:'airlines/orc.html'},
+    {n:'天草エアライン',         e:'Amakusa Airlines',            g:'🇯🇵', t:['AMX','MZ','あまくさ','天草'],                           f:'airlines/amx.html'},
+    {n:'新中央航空',             e:'Shin Central Air',            g:'🇯🇵', t:['SCA','しんちゅうおう'],                                 f:'airlines/shin-central.html'},
+    {n:'東邦エア',               e:'Toho Air',                    g:'🇯🇵', t:['THA','とうほう'],                                      f:'airlines/toho-air.html'},
+    {n:'第一航空',               e:'Daiichi Air',                 g:'🇯🇵', t:['DAI','だいいち'],                                      f:'airlines/daiichi-air.html'},
+    {n:'新日本航空',             e:'Shin Nihon Airlines',         g:'🇯🇵', t:['SNA','しんにほん'],                                    f:'airlines/shin-nihon.html'},
+    /* ─ Americas — US ─ */
+    {n:'デルタ航空',             e:'Delta Air Lines',             g:'🇺🇸', t:['DAL','DL','delta','でるた'],                           f:'airlines/delta.html'},
+    {n:'ユナイテッド航空',       e:'United Airlines',             g:'🇺🇸', t:['UAL','UA','united','ゆないてっど'],                     f:'airlines/united.html'},
+    {n:'アメリカン航空',         e:'American Airlines',           g:'🇺🇸', t:['AAL','AA','american','あめりかん'],                    f:'airlines/american.html'},
+    {n:'サウスウエスト航空',     e:'Southwest Airlines',          g:'🇺🇸', t:['WN','southwest','さうすうえすと'],                     f:'airlines/southwest.html'},
+    {n:'アラスカ航空',           e:'Alaska Airlines',             g:'🇺🇸', t:['ASA','AS','alaska','あらすか'],                        f:'airlines/alaska-airlines.html'},
+    {n:'ジェットブルー',         e:'JetBlue Airways',             g:'🇺🇸', t:['B6','jetblue','じぇっとぶるー'],                       f:'airlines/jetblue.html'},
+    {n:'スピリット航空',         e:'Spirit Airlines',             g:'🇺🇸', t:['NK','spirit'],                                         f:'airlines/spirit.html'},
+    {n:'フロンティア航空',       e:'Frontier Airlines',           g:'🇺🇸', t:['F9','frontier'],                                       f:'airlines/frontier.html'},
+    {n:'アレジアント航空',       e:'Allegiant Air',               g:'🇺🇸', t:['G4','allegiant'],                                      f:'airlines/allegiant.html'},
+    {n:'ブリーズ航空',           e:'Breeze Airways',              g:'🇺🇸', t:['MX','breeze'],                                         f:'airlines/breeze-airways.html'},
+    /* ─ Americas — Canada/Latin ─ */
+    {n:'エアカナダ',             e:'Air Canada',                  g:'🇨🇦', t:['ACA','AC','あえかなだ','カナダ'],                      f:'airlines/air-canada.html'},
+    {n:'ウエストジェット',       e:'WestJet',                     g:'🇨🇦', t:['WJA','WS'],                                            f:'airlines/westjet.html'},
+    {n:'ポーターエアラインズ',   e:'Porter Airlines',             g:'🇨🇦', t:['POE','PD'],                                            f:'airlines/porter.html'},
+    {n:'アエロメヒコ航空',       e:'Aeromexico',                  g:'🇲🇽', t:['AM','AMX','メキシコ'],                                  f:'airlines/aeromexico.html'},
+    {n:'アビアンカ航空',         e:'Avianca',                     g:'🇨🇴', t:['AV','AVA','コロンビア'],                                f:'airlines/avianca.html'},
+    {n:'コパ航空',               e:'Copa Airlines',               g:'🇵🇦', t:['CM','CMP','パナマ'],                                   f:'airlines/copa-airlines.html'},
+    {n:'ラタム航空',             e:'LATAM Airlines',              g:'🇨🇱', t:['LA','LAN','らたむ'],                                   f:'airlines/latam.html'},
+    /* ─ Middle East ─ */
+    {n:'エミレーツ航空',         e:'Emirates',                    g:'🇦🇪', t:['EK','UAE','えみれーつ','ドバイ','Dubai'],              f:'airlines/emirates.html'},
+    {n:'カタール航空',           e:'Qatar Airways',               g:'🇶🇦', t:['QR','QTR','かたーる','Qatar'],                        f:'airlines/qatar-airways.html'},
+    {n:'エティハド航空',         e:'Etihad Airways',              g:'🇦🇪', t:['EY','ETD','えてぃはど','アブダビ'],                    f:'airlines/etihad.html'},
+    {n:'リヤドエア',             e:'Riyadh Air',                  g:'🇸🇦', t:['RX','サウジ','りやど'],                                f:'airlines/riyadh-air.html'},
+    {n:'サウジアラビア航空',     e:'Saudia',                      g:'🇸🇦', t:['SV','SaudiArabian','さうでぃ'],                       f:'airlines/saudia.html'},
+    {n:'ガルフエア',             e:'Gulf Air',                    g:'🇧🇭', t:['GF','GFA','バーレーン'],                               f:'airlines/gulf-air.html'},
+    {n:'オマーン航空',           e:'Oman Air',                    g:'🇴🇲', t:['WY','OAS','おまーん'],                                 f:'airlines/oman-air.html'},
+    {n:'クウェート航空',         e:'Kuwait Airways',              g:'🇰🇼', t:['KAC','KU','くうぇーと'],                              f:'airlines/kuwait-airways.html'},
+    {n:'ロイヤルヨルダン',       e:'Royal Jordanian',             g:'🇯🇴', t:['RJA','RJ','ヨルダン'],                                f:'airlines/royal-jordanian.html'},
+    /* ─ Africa ─ */
+    {n:'エジプト航空',           e:'EgyptAir',                    g:'🇪🇬', t:['MS','MSR','えじぷと'],                                 f:'airlines/egyptair.html'},
+    {n:'エチオピア航空',         e:'Ethiopian Airlines',          g:'🇪🇹', t:['ET','ETH','えちおぴあ'],                               f:'airlines/ethiopian-airlines.html'},
+    {n:'ケニア航空',             e:'Kenya Airways',               g:'🇰🇪', t:['KQ','KQA','けにあ'],                                  f:'airlines/kenya-airways.html'},
+    {n:'南アフリカ航空',         e:'South African Airways',       g:'🇿🇦', t:['SA','SAA','みなみあふりか'],                           f:'airlines/south-african-airways.html'},
+    /* ─ Asia — Northeast ─ */
+    {n:'シンガポール航空',       e:'Singapore Airlines',          g:'🇸🇬', t:['SQ','SIA','しんがぽーる','Singapore'],                f:'airlines/singapore-airlines.html'},
+    {n:'キャセイパシフィック航空',e:'Cathay Pacific',             g:'🇭🇰', t:['CX','CPA','キャセイ','かせい','香港','HongKong'],     f:'airlines/cathay-pacific.html'},
+    {n:'大韓航空',               e:'Korean Air',                  g:'🇰🇷', t:['KE','KAL','だいかん','韓国','Korea'],                 f:'airlines/korean-air.html'},
+    {n:'中国国際航空',           e:'Air China',                   g:'🇨🇳', t:['CA','CCA','エアチャイナ','中国','China'],             f:'airlines/air-china.html'},
+    {n:'中国東方航空',           e:'China Eastern Airlines',      g:'🇨🇳', t:['MU','CES','チャイナイースタン'],                      f:'airlines/china-eastern.html'},
+    {n:'中国南方航空',           e:'China Southern Airlines',     g:'🇨🇳', t:['CZ','CSN','チャイナサザン'],                          f:'airlines/china-southern.html'},
+    {n:'チャイナエアライン',     e:'China Airlines',              g:'🇹🇼', t:['CI','CAL','台湾','Taiwan'],                           f:'airlines/china-airlines.html'},
+    {n:'エバー航空',             e:'EVA Air',                     g:'🇹🇼', t:['BR','EVA','えばー','台湾'],                            f:'airlines/eva-air.html'},
+    {n:'スターラックス航空',     e:'StarLux Airlines',            g:'🇹🇼', t:['JX','StarLux','すたーらっくす'],                     f:'airlines/starlux.html'},
+    {n:'香港エクスプレス',       e:'Hong Kong Express',           g:'🇭🇰', t:['UO','HKExpress','香港'],                             f:'airlines/hong-kong-express.html'},
+    {n:'海南航空',               e:'Hainan Airlines',             g:'🇨🇳', t:['HU','HXA','はいなん'],                                f:'airlines/hainan-airlines.html'},
+    /* ─ Asia — Southeast/South ─ */
+    {n:'エアインディア',         e:'Air India',                   g:'🇮🇳', t:['AI','AIC','インド','India'],                          f:'airlines/air-india.html'},
+    {n:'インディゴ',             e:'IndiGo',                      g:'🇮🇳', t:['6E','IGO','インド'],                                  f:'airlines/indigo.html'},
+    {n:'ガルーダ・インドネシア', e:'Garuda Indonesia',            g:'🇮🇩', t:['GA','GIA','ガルーダ','インドネシア'],                  f:'airlines/garuda-indonesia.html'},
+    {n:'マレーシア航空',         e:'Malaysia Airlines',           g:'🇲🇾', t:['MH','MAS','マレーシア'],                              f:'airlines/malaysia-airlines.html'},
+    {n:'タイ国際航空',           e:'Thai Airways',                g:'🇹🇭', t:['TG','THA','タイ','Thailand'],                        f:'airlines/thai-airways.html'},
+    {n:'ベトナム航空',           e:'Vietnam Airlines',            g:'🇻🇳', t:['VN','HVN','ベトナム'],                                f:'airlines/vietnam-airlines.html'},
+    {n:'ビエットジェット',       e:'VietJet Air',                 g:'🇻🇳', t:['VJ','VJC','ベトナム'],                                f:'airlines/vietjet.html'},
+    {n:'フィリピン航空',         e:'Philippine Airlines',         g:'🇵🇭', t:['PR','PAL','フィリピン'],                              f:'airlines/philippine-airlines.html'},
+    {n:'エアアジア',             e:'AirAsia',                     g:'🇲🇾', t:['AK','AAX','えああじあ'],                              f:'airlines/airasia.html'},
+    {n:'スクート',               e:'Scoot',                       g:'🇸🇬', t:['TR','TGW','すくーと'],                                f:'airlines/scoot.html'},
+    {n:'バティックエア',         e:'Batik Air',                   g:'🇮🇩', t:['ID','BTK','ばてぃっく'],                              f:'airlines/batik-air.html'},
+    {n:'バンブー・エアウェイズ', e:'Bamboo Airways',              g:'🇻🇳', t:['QH','BAV','バンブー'],                                f:'airlines/bamboo-airways.html'},
+    {n:'ロイヤルブルネイ航空',   e:'Royal Brunei Airlines',       g:'🇧🇳', t:['BI','RBA','ブルネイ'],                                f:'airlines/royal-brunei.html'},
+    {n:'フィジー・エアウェイズ', e:'Fiji Airways',                g:'🇫🇯', t:['FJ','FAJ','フィジー'],                               f:'airlines/fiji-airways.html'},
+    /* ─ Europe — Major ─ */
+    {n:'ルフトハンザ航空',       e:'Lufthansa',                   g:'🇩🇪', t:['LH','LHA','ルフトハンザ','ドイツ','Germany'],        f:'airlines/lufthansa.html'},
+    {n:'エールフランス',         e:'Air France',                  g:'🇫🇷', t:['AF','AFR','えーるふらんす','フランス','France'],     f:'airlines/air-france.html'},
+    {n:'ブリティッシュ・エアウェイズ',e:'British Airways',        g:'🇬🇧', t:['BA','BAW','ブリティッシュ','イギリス','UK'],         f:'airlines/british-airways.html'},
+    {n:'KLMオランダ航空',        e:'KLM Royal Dutch Airlines',    g:'🇳🇱', t:['KL','KLM','オランダ','Netherlands'],                 f:'airlines/klm.html'},
+    {n:'スイス国際航空',         e:'Swiss International Air Lines',g:'🇨🇭', t:['LX','SWR','swiss','スイス','Switzerland'],          f:'airlines/swiss.html'},
+    {n:'ターキッシュ エアラインズ',e:'Turkish Airlines',          g:'🇹🇷', t:['TK','THY','トルコ','Turkey','ターキッシュ'],         f:'airlines/turkish-airlines.html'},
+    {n:'スカンジナビア航空',     e:'SAS',                         g:'🇸🇪', t:['SK','SAS','スカンジナビア'],                          f:'airlines/sas.html'},
+    {n:'ノルウェジアン航空',     e:'Norwegian Air Shuttle',       g:'🇳🇴', t:['DY','NAX','ノルウェジアン'],                         f:'airlines/norwegian.html'},
+    {n:'フィンエアー',           e:'Finnair',                     g:'🇫🇮', t:['AY','FIN','ふぃんえあー','フィンランド'],             f:'airlines/finnair.html'},
+    {n:'エアリンガス',           e:'Aer Lingus',                  g:'🇮🇪', t:['EI','EIN','アイルランド','Ireland'],                  f:'airlines/aer-lingus.html'},
+    {n:'イベリア航空',           e:'Iberia Airlines',             g:'🇪🇸', t:['IB','IBE','スペイン','Spain'],                        f:'airlines/iberia.html'},
+    {n:'TAPエアポルトガル',      e:'TAP Air Portugal',            g:'🇵🇹', t:['TP','TAP','ポルトガル'],                              f:'airlines/tap.html'},
+    {n:'エーゲ航空',             e:'Aegean Airlines',             g:'🇬🇷', t:['A3','AEE','ギリシャ','Greece'],                       f:'airlines/aegean.html'},
+    {n:'LOTポーランド航空',      e:'LOT Polish Airlines',         g:'🇵🇱', t:['LO','LOT','ポーランド'],                              f:'airlines/lot.html'},
+    {n:'オーストリア航空',       e:'Austrian Airlines',           g:'🇦🇹', t:['OS','AUA','オーストリア'],                            f:'airlines/austrian.html'},
+    {n:'ITAエアウェイズ',        e:'ITA Airways',                 g:'🇮🇹', t:['AZ','ITA','イタリア','Italy','Alitalia','アリタリア'],f:'airlines/ita-airways.html'},
+    {n:'ブエリング航空',         e:'Vueling Airlines',            g:'🇪🇸', t:['VY','VLG','ぶえりんぐ'],                              f:'airlines/vueling.html'},
+    {n:'アイスランド航空',       e:'Icelandair',                  g:'🇮🇸', t:['FI','ICE','アイスランド'],                            f:'airlines/icelandair.html'},
+    {n:'ウィズエア',             e:'Wizz Air',                    g:'🇭🇺', t:['W6','WZZ','ウィズ'],                                  f:'airlines/wizz-air.html'},
+    {n:'ライアンエア',           e:'Ryanair',                     g:'🇮🇪', t:['FR','RYR','らいあん'],                                f:'airlines/ryanair.html'},
+    {n:'イージージェット',       e:'easyJet',                     g:'🇬🇧', t:['U2','EZY','いーじー'],                                f:'airlines/easyjet.html'},
+    {n:'ヴァージン・アトランティック',e:'Virgin Atlantic',        g:'🇬🇧', t:['VS','VIR','ヴァージン','バージン'],                   f:'airlines/virgin-atlantic.html'},
+    /* ─ Oceania ─ */
+    {n:'カンタス航空',           e:'Qantas Airways',              g:'🇦🇺', t:['QF','QFA','カンタス','Australia','オーストラリア'],  f:'airlines/qantas.html'},
+    {n:'ニュージーランド航空',   e:'Air New Zealand',             g:'🇳🇿', t:['NZ','ANZ','ニュージーランド'],                        f:'airlines/air-new-zealand.html'},
+    {n:'ジェットスター（豪州）', e:'Jetstar Airways',             g:'🇦🇺', t:['JQ','JST','ジェットスター'],                          f:'airlines/jetstar.html'},
+  ];
+
+  /* ── Normalize for matching ── */
+  function norm(s) {
+    return (s||'').toLowerCase()
+      .replace(/\s+|　/g,'')
+      .replace(/ー/g,'')           // ignore long vowel mark in katakana
+      .replace(/（[^）]*）/g,'');  // strip bracketed content like (ANA)
+  }
+
+  /* ── Search ── */
+  function doSearch(q) {
+    if (!q || q.length < 1) return [];
+    var nq = norm(q);
+    return DB.filter(function(a) {
+      return norm(a.n).includes(nq) ||
+             norm(a.e).includes(nq) ||
+             a.t.some(function(t){ return norm(t).includes(nq) || t.toLowerCase().includes(q.toLowerCase()); });
+    }).slice(0, 9);
+  }
+
+  /* ── Highlight match ── */
+  function hl(text, q) {
+    if (!q) return text;
+    try {
+      return text.replace(
+        new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'),
+        '<mark>$1</mark>'
+      );
+    } catch(e) { return text; }
+  }
+
+  /* ── Inject styles ── */
+  var style = document.createElement('style');
+  style.textContent = [
+    '#pv-search-wrap{position:relative;display:flex;align-items:center}',
+    /* toggle button */
+    '#pv-search-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:background .2s,color .2s;flex-shrink:0}',
+    '#pv-search-btn:hover{background:rgba(255,255,255,.13);color:#fff}',
+    '[data-theme=light] #pv-search-btn{background:rgba(0,0,0,.06);color:rgba(15,23,42,.6);border-color:rgba(0,0,0,.12)}',
+    '[data-theme=light] #pv-search-btn:hover{background:rgba(0,0,0,.1);color:#0f172a}',
+    /* input box */
+    '#pv-search-box{display:flex;align-items:center;gap:6px;background:rgba(17,22,32,.97);border:1px solid rgba(61,155,255,.35);border-radius:10px;padding:0 10px;height:36px;width:260px}',
+    '[data-theme=light] #pv-search-box{background:#fff;border-color:rgba(61,155,255,.4);box-shadow:0 2px 12px rgba(61,155,255,.12)}',
+    '#pv-search-input{background:none;border:none;outline:none;color:#e8edf2;font-size:.83rem;width:100%;font-family:inherit}',
+    '[data-theme=light] #pv-search-input{color:#0f172a}',
+    '#pv-search-input::placeholder{color:#4e5f73;font-size:.78rem}',
+    '#pv-search-close{background:none;border:none;color:#4e5f73;cursor:pointer;font-size:.85rem;padding:0;line-height:1;flex-shrink:0;transition:color .15s}',
+    '#pv-search-close:hover{color:#e8edf2}',
+    '[data-theme=light] #pv-search-close:hover{color:#0f172a}',
+    /* dropdown */
+    '#pv-search-dd{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:rgba(11,15,23,.98);border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;box-shadow:0 20px 48px rgba(0,0,0,.55);z-index:1000}',
+    '[data-theme=light] #pv-search-dd{background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 8px 32px rgba(0,0,0,.14)}',
+    '.pv-si{display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:background .1s}',
+    '[data-theme=light] .pv-si{border-bottom-color:rgba(0,0,0,.04)}',
+    '.pv-si:last-child{border-bottom:none}',
+    '.pv-si:hover,.pv-si.active{background:rgba(61,155,255,.13)}',
+    '[data-theme=light] .pv-si:hover,[data-theme=light] .pv-si.active{background:rgba(61,155,255,.08)}',
+    '.pv-si-flag{font-size:1.15rem;flex-shrink:0;line-height:1}',
+    '.pv-si-ja{font-size:.83rem;font-weight:600;color:#e8edf2;line-height:1.3}',
+    '[data-theme=light] .pv-si-ja{color:#0f172a}',
+    '.pv-si-en{font-size:.7rem;color:#6b7d93;margin-top:2px}',
+    '.pv-si mark{background:rgba(245,200,66,.22);color:#f5c842;border-radius:2px;padding:0 1px;font-style:normal}',
+    '[data-theme=light] .pv-si mark{background:rgba(160,114,0,.14);color:#92690a}',
+    '.pv-search-empty{padding:16px 14px;font-size:.8rem;color:#6b7d93;text-align:center}',
+    /* mobile */
+    '@media(max-width:640px){#pv-search-box{width:200px}#pv-search-dd{width:calc(100vw - 24px);right:-12px}}',
+  ].join('');
+  document.head.appendChild(style);
+
+  /* ── State ── */
+  var activeIdx = -1;
+  var lastResults = [];
+
+  /* ── Build UI ── */
+  function buildUI() {
+    var nav = document.getElementById('main-nav');
+    if (!nav || document.getElementById('pv-search-wrap')) return;
+
+    /* Get the rightmost .flex.items-center.gap-3 in the nav */
+    var all = nav.querySelectorAll('.flex.items-center.gap-3');
+    var right = all[all.length - 1];
+    if (!right) return;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'pv-search-wrap';
+
+    var btn = document.createElement('button');
+    btn.id = 'pv-search-btn';
+    btn.setAttribute('aria-label','航空会社を検索');
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>';
+
+    var box = document.createElement('div');
+    box.id = 'pv-search-box';
+    box.style.display = 'none';
+    box.innerHTML =
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4e5f73" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>' +
+      '<input id="pv-search-input" type="text" placeholder="航空会社を検索…" autocomplete="off" spellcheck="false"/>' +
+      '<button id="pv-search-close" aria-label="閉じる">✕</button>';
+
+    var dd = document.createElement('div');
+    dd.id = 'pv-search-dd';
+    dd.style.display = 'none';
+
+    wrap.appendChild(btn);
+    wrap.appendChild(box);
+    wrap.appendChild(dd);
+    right.insertBefore(wrap, right.firstChild);
+
+    btn.addEventListener('click', openSearch);
+    document.getElementById('pv-search-close').addEventListener('click', closeSearch);
+    document.getElementById('pv-search-input').addEventListener('input', onInput);
+    document.getElementById('pv-search-input').addEventListener('keydown', onKeydown);
+    document.addEventListener('click', onOutside);
+  }
+
+  function openSearch() {
+    document.getElementById('pv-search-btn').style.display = 'none';
+    document.getElementById('pv-search-box').style.display = 'flex';
+    setTimeout(function(){ document.getElementById('pv-search-input').focus(); }, 10);
+  }
+
+  function closeSearch() {
+    document.getElementById('pv-search-btn').style.display = '';
+    document.getElementById('pv-search-box').style.display = 'none';
+    document.getElementById('pv-search-dd').style.display = 'none';
+    document.getElementById('pv-search-input').value = '';
+    activeIdx = -1;
+    lastResults = [];
+  }
+
+  function onInput(e) {
+    activeIdx = -1;
+    var q = e.target.value.trim();
+    lastResults = doSearch(q);
+    renderDD(lastResults, q);
+  }
+
+  function renderDD(results, q) {
+    var dd = document.getElementById('pv-search-dd');
+    if (!q) { dd.style.display = 'none'; return; }
+    if (!results.length) {
+      dd.innerHTML = '<div class="pv-search-empty">「' + q + '」に一致する航空会社は見つかりません</div>';
+      dd.style.display = 'block';
+      return;
+    }
+    dd.innerHTML = results.map(function(a, i) {
+      return '<a class="pv-si" href="' + P + a.f + '">' +
+        '<span class="pv-si-flag">' + a.g + '</span>' +
+        '<div>' +
+          '<div class="pv-si-ja">' + hl(a.n, q) + '</div>' +
+          '<div class="pv-si-en">' + hl(a.e, q) + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+    dd.style.display = 'block';
+    setActive(-1);
+  }
+
+  function setActive(idx) {
+    var items = document.querySelectorAll('#pv-search-dd .pv-si');
+    items.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
+    activeIdx = idx;
+  }
+
+  function onKeydown(e) {
+    var items = document.querySelectorAll('#pv-search-dd .pv-si');
+    if (e.key === 'Escape') { closeSearch(); return; }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(Math.min(activeIdx + 1, items.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(Math.max(activeIdx - 1, 0));
+    } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
+      items[activeIdx].click();
+    }
+  }
+
+  function onOutside(e) {
+    var wrap = document.getElementById('pv-search-wrap');
+    if (wrap && !wrap.contains(e.target)) closeSearch();
+  }
+
+  /* ── Init ── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildUI);
+  } else {
+    buildUI();
+  }
+})();
