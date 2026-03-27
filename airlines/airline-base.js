@@ -761,9 +761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     drawer.innerHTML =
       '<div class="pv-nd-head">' +
         '<a href="' + P + 'index.html"><img src="' + P + 'baland_ass/\u30ed\u30b4\u30a4\u30e1\u30fc\u30b8.png" alt="PILOT VALUE" class="pv-nd-logo"/></a>' +
-        '<button class="pv-nd-close" id="pv-nd-close-btn" aria-label="\u9589\u3058\u308b">' +
-          '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>' +
-        '</button>' +
+  '' +
       '</div>' +
       '<div class="pv-nd-links">' +
         '<a href="' + P + 'world-airlines.html" class="pv-nd-link">\u4e16\u754c\u306e\u822a\u7a7a\u4f1a\u793e</a>' +
@@ -790,7 +788,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btn.addEventListener('click', function(){ drawer.classList.contains('open') ? closeD() : openD(); });
     overlay.addEventListener('click', closeD);
-    document.getElementById('pv-nd-close-btn').addEventListener('click', closeD);
     drawer.querySelectorAll('.pv-nd-link').forEach(function(a){ a.addEventListener('click', closeD); });
 
     try {
