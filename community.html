@@ -725,12 +725,12 @@
         <div class="modal-section-title">年収内訳（万円・概算）</div>
         <div class="salary-row">
           <div>
-            <label class="form-label">月給</label>
-            <input type="number" class="form-input" id="m-monthly" placeholder="例: 150" min="0" max="9999" />
+            <label class="form-label">年収 <span style="color:#f97316;font-size:.7rem">必須</span></label>
+            <input type="number" class="form-input" id="m-annual" placeholder="例: 2800" min="100" max="99999" required />
           </div>
           <div>
-            <label class="form-label">残業代</label>
-            <input type="number" class="form-input" id="m-overtime" placeholder="例: 20" min="0" max="9999" />
+            <label class="form-label">月収（参考）</label>
+            <input type="number" class="form-input" id="m-monthly" placeholder="例: 150" min="0" max="9999" />
           </div>
           <div>
             <label class="form-label">賞与（年計）</label>
@@ -1112,6 +1112,11 @@ function insertChip(btn, textId) {
 
 function goConfirm() {
   const err = document.getElementById('step2-error');
+  const annualVal = document.getElementById('m-annual').value;
+  if (!annualVal || +annualVal < 100) {
+    err.textContent = '年収を入力してください（必須）';
+    err.style.display = ''; return;
+  }
   const total = totalChars();
   if (total < 200) {
     err.textContent = `口コミの合計文字数が${total}文字です。200文字以上になるよう記入してください。`;
@@ -1150,16 +1155,13 @@ function buildConfirm() {
   const posVal = document.querySelector('input[name="m-pos"]:checked')?.value;
   const yearsVal = document.getElementById('m-years').value;
   const joinVal = document.querySelector('input[name="m-join"]:checked')?.value;
-  const mon = document.getElementById('m-monthly').value;
-  const ot = document.getElementById('m-overtime').value;
-  const bon = document.getElementById('m-bonus').value;
-  const annualEst = ((+mon||0)*12 + (+ot||0)*12 + (+bon||0));
+  const annual = +document.getElementById('m-annual').value || 0;
   document.getElementById('confirm-info').innerHTML = `
     <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">航空会社</span><span class="font-semibold">${AIRLINE_LABELS_MAP[airlineVal]||airlineVal}</span></div>
     <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">職位</span><span class="font-semibold">${POS_MAP[posVal]||posVal||'—'}</span></div>
     <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">何年目</span><span class="font-semibold">${yearsVal||'—'}年</span></div>
     <div class="flex justify-between py-1 border-b border-white/[0.05]"><span class="text-muted">入社形態</span><span class="font-semibold">${JOIN_MAP[joinVal]||'—'}</span></div>
-    <div class="flex justify-between py-1"><span class="text-muted">推定年収</span><span class="font-semibold" style="color:#f5c842">${annualEst > 0 ? Math.round(annualEst/100)*100 + '万円' : '入力なし'}</span></div>
+    <div class="flex justify-between py-1"><span class="text-muted">年収</span><span class="font-semibold" style="color:#f5c842">${annual > 0 ? Math.round(annual/100)*100 + '万円' : '—'}</span></div>
   `;
 
   // Text previews
@@ -1182,10 +1184,10 @@ async function submitModal() {
   const posVal  = document.querySelector('input[name="m-pos"]:checked')?.value || '';
   const yearsVal= document.getElementById('m-years').value;
   const joinVal = document.querySelector('input[name="m-join"]:checked')?.value || '';
+  const annual = +document.getElementById('m-annual').value  || 0;
   const mon  = +document.getElementById('m-monthly').value  || 0;
-  const ot   = +document.getElementById('m-overtime').value || 0;
   const bon  = +document.getElementById('m-bonus').value    || 0;
-  const salary = Math.round((mon*12 + ot*12 + bon) / 100) * 100;
+  const salary = Math.round(annual / 100) * 100;
   const texts  = TEXT_IDS.map(id => document.getElementById(id).value.trim());
 
   // 1. localStorageに保存（既存の動作を維持）
@@ -1217,7 +1219,6 @@ async function submitModal() {
       avg_rating:   +avg.toFixed(1),
       salary_total: salary,
       monthly:      mon,
-      overtime:     ot,
       bonus:        bon,
       comment:      texts[0] || texts.filter(Boolean).join(' / ')
     });
