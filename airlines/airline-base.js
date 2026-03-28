@@ -284,7 +284,8 @@ function injectSEOMeta() {
   const avg = (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1);
   const desc = `${airlineName}のパイロット年収・口コミ・評価。総合評価${avg}/5.0。機長・副操縦士の実際の給与、職場環境、訓練体制をパイロット目線で掲載。${englishName ? englishName + ' — ' : ''}PILOT VALUE`;
   const canonical = `https://pilot-value.com/airlines/${AIRLINE_CODE}.html`;
-  const title = document.title;
+  const newTitle = `${airlineName} パイロット 年収・口コミ・評価 | PILOT VALUE`;
+  document.title = newTitle;
 
   const setMeta = (attr, key, val) => {
     let el = document.querySelector(`meta[${attr}="${key}"]`);
@@ -294,18 +295,64 @@ function injectSEOMeta() {
 
   setMeta('name', 'description', desc);
   setMeta('name', 'robots', 'index,follow');
-  setMeta('property', 'og:title', title);
+  setMeta('property', 'og:title', newTitle);
   setMeta('property', 'og:description', desc);
   setMeta('property', 'og:url', canonical);
   setMeta('property', 'og:type', 'website');
   setMeta('property', 'og:site_name', 'PILOT VALUE');
   setMeta('name', 'twitter:card', 'summary');
-  setMeta('name', 'twitter:title', title);
+  setMeta('name', 'twitter:title', newTitle);
   setMeta('name', 'twitter:description', desc);
 
   let cl = document.querySelector('link[rel="canonical"]');
   if (!cl) { cl = document.createElement('link'); cl.rel = 'canonical'; document.head.appendChild(cl); }
   cl.href = canonical;
+}
+
+// ── Schema.org Structured Data (AggregateRating) ────
+function injectSchemaOrg() {
+  const h1 = document.querySelector('.hero-airline h1');
+  const airlineName = h1 ? h1.textContent.trim() : (AIRLINE_CODE || '').toUpperCase();
+  const { ratings, count } = getAirlineRatings();
+  const avg = (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1);
+  const ratingCount = count > 0 ? count + 3 : 3;
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': airlineName,
+    'url': `https://pilot-value.com/airlines/${AIRLINE_CODE}.html`,
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': avg,
+      'bestRating': '5',
+      'worstRating': '1',
+      'ratingCount': ratingCount
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = 'pv-schema-org';
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(schema);
+  document.head.appendChild(script);
+
+  // Update ratingCount async once Supabase resolves real review count
+  (async () => {
+    try {
+      await _initSB();
+      if (!_sb) return;
+      const { count: sbCount } = await _sb.from('reviews').select('id', {count:'exact',head:true}).eq('airline', AIRLINE_CODE);
+      if (sbCount > 0) {
+        const el = document.getElementById('pv-schema-org');
+        if (el) {
+          const s = JSON.parse(el.textContent);
+          s.aggregateRating.ratingCount = sbCount + 3;
+          el.textContent = JSON.stringify(s);
+        }
+      }
+    } catch(e) {}
+  })();
 }
 
 // ── Hero Rating Banner (visible on page load) ───────
@@ -753,8 +800,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Inject hero rating banner (visible on page load)
   injectHeroRatingBanner();
 
-  // SEO meta tags
+  // SEO meta tags + Schema.org
   injectSEOMeta();
+  injectSchemaOrg();
 
   // Auto-open reviews tab if URL has #reviews
   if (location.hash === '#reviews') {
