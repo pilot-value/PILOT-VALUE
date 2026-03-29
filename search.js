@@ -176,8 +176,8 @@
     '#pv-search-close{background:none;border:none;color:#4e5f73;cursor:pointer;font-size:.85rem;padding:0;line-height:1;flex-shrink:0;transition:color .15s}',
     '#pv-search-close:hover{color:#e8edf2}',
     '[data-theme=light] #pv-search-close:hover{color:#0f172a}',
-    /* dropdown */
-    '#pv-search-dd{position:absolute;top:calc(100% + 8px);right:0;width:320px;background:rgba(11,15,23,.98);border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;box-shadow:0 20px 48px rgba(0,0,0,.55);z-index:1000}',
+    /* dropdown — position set via JS to avoid Safari backdrop-filter containment */
+    '#pv-search-dd{position:fixed;width:320px;background:rgba(11,15,23,.98);border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;box-shadow:0 20px 48px rgba(0,0,0,.55);z-index:99999}',
     '[data-theme=light] #pv-search-dd{background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 8px 32px rgba(0,0,0,.14)}',
     '.pv-si{display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:background .1s}',
     '[data-theme=light] .pv-si{border-bottom-color:rgba(0,0,0,.04)}',
@@ -191,8 +191,8 @@
     '.pv-si mark{background:rgba(245,200,66,.22);color:#f5c842;border-radius:2px;padding:0 1px;font-style:normal}',
     '[data-theme=light] .pv-si mark{background:rgba(160,114,0,.14);color:#92690a}',
     '.pv-search-empty{padding:16px 14px;font-size:.8rem;color:#6b7d93;text-align:center}',
-    /* mobile */
-    '@media(max-width:640px){#pv-search-box{position:fixed;left:10px;right:10px;top:8px;width:auto;height:42px;border-radius:12px;z-index:9000;box-shadow:0 4px 20px rgba(0,0,0,.5)}#pv-search-dd{position:fixed;left:10px;right:10px;top:58px;width:auto}}',
+    /* mobile — keep search box in flow; dropdown positioned via positionDD() */
+    '@media(max-width:640px){#pv-search-wrap{flex:1;min-width:0;margin-left:4px}#pv-search-box{width:100%!important;height:40px;box-sizing:border-box}}',
   ].join('');
   document.head.appendChild(style);
 
@@ -232,7 +232,7 @@
 
     wrap.appendChild(btn);
     wrap.appendChild(box);
-    wrap.appendChild(dd);
+    document.body.appendChild(dd);   // outside nav to avoid Safari backdrop-filter containment
     right.insertBefore(wrap, right.firstChild);
 
     btn.addEventListener('click', openSearch);
@@ -240,6 +240,23 @@
     document.getElementById('pv-search-input').addEventListener('input', onInput);
     document.getElementById('pv-search-input').addEventListener('keydown', onKeydown);
     document.addEventListener('click', onOutside);
+  }
+
+  function positionDD() {
+    var box = document.getElementById('pv-search-box');
+    var dd  = document.getElementById('pv-search-dd');
+    if (!box || !dd) return;
+    var rect = box.getBoundingClientRect();
+    dd.style.top = (rect.bottom + 6) + 'px';
+    if (window.innerWidth <= 640) {
+      dd.style.left  = '8px';
+      dd.style.right = '8px';
+      dd.style.width = 'auto';
+    } else {
+      dd.style.left  = 'auto';
+      dd.style.right = Math.max(8, window.innerWidth - rect.right) + 'px';
+      dd.style.width = '320px';
+    }
   }
 
   function openSearch() {
@@ -269,6 +286,7 @@
     if (!q) { dd.style.display = 'none'; return; }
     if (!results.length) {
       dd.innerHTML = '<div class="pv-search-empty">「' + q + '」に一致する航空会社は見つかりません</div>';
+      positionDD();
       dd.style.display = 'block';
       return;
     }
@@ -281,6 +299,7 @@
         '</div>' +
       '</a>';
     }).join('');
+    positionDD();
     dd.style.display = 'block';
     setActive(-1);
   }
@@ -307,7 +326,8 @@
 
   function onOutside(e) {
     var wrap = document.getElementById('pv-search-wrap');
-    if (wrap && !wrap.contains(e.target)) closeSearch();
+    var dd   = document.getElementById('pv-search-dd');
+    if (wrap && !wrap.contains(e.target) && (!dd || !dd.contains(e.target))) closeSearch();
   }
 
   /* ── Init ── */
