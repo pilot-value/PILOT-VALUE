@@ -249,9 +249,9 @@
     var rect = box.getBoundingClientRect();
     var vw = window.innerWidth;
     dd.style.top = (rect.bottom + 6) + 'px';
-    // Mobile: touch device, narrow viewport, OR box layout not ready (rect.width==0)
-    var isMobile = vw <= 768 || ('ontouchstart' in window) || rect.width === 0 || rect.width > vw * 0.35;
-    if (isMobile) {
+    // Phone detection: screen.width <= 500 covers all iPhones/Androids reliably
+    var isPhone = window.screen.width <= 500 || vw <= 640;
+    if (isPhone) {
       dd.style.left  = '8px';
       dd.style.right = '8px';
       dd.style.width = 'auto';
