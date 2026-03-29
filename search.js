@@ -191,8 +191,8 @@
     '.pv-si mark{background:rgba(245,200,66,.22);color:#f5c842;border-radius:2px;padding:0 1px;font-style:normal}',
     '[data-theme=light] .pv-si mark{background:rgba(160,114,0,.14);color:#92690a}',
     '.pv-search-empty{padding:16px 14px;font-size:.8rem;color:#6b7d93;text-align:center}',
-    /* mobile — CSS !important forces dropdown to full width regardless of JS */
-    '@media(max-width:640px){#pv-search-wrap{flex:1;min-width:0;margin-left:4px}#pv-search-box{width:100%!important;height:40px;box-sizing:border-box}#pv-search-dd{left:8px!important;right:8px!important;width:auto!important}}',
+    /* mobile — expand wrap only when open; dropdown always full-width */
+    '@media(max-width:640px){#pv-search-wrap.open{flex:1;min-width:0;margin-left:4px}#pv-search-box{width:100%!important;height:40px;box-sizing:border-box}#pv-search-dd{left:8px!important;right:8px!important;width:auto!important}}',
   ].join('');
   document.head.appendChild(style);
 
@@ -258,12 +258,14 @@
   }
 
   function openSearch() {
+    document.getElementById('pv-search-wrap').classList.add('open');
     document.getElementById('pv-search-btn').style.display = 'none';
     document.getElementById('pv-search-box').style.display = 'flex';
     setTimeout(function(){ document.getElementById('pv-search-input').focus(); }, 10);
   }
 
   function closeSearch() {
+    document.getElementById('pv-search-wrap').classList.remove('open');
     document.getElementById('pv-search-btn').style.display = '';
     document.getElementById('pv-search-box').style.display = 'none';
     document.getElementById('pv-search-dd').style.display = 'none';
