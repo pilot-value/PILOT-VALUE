@@ -191,8 +191,8 @@
     '.pv-si mark{background:rgba(245,200,66,.22);color:#f5c842;border-radius:2px;padding:0 1px;font-style:normal}',
     '[data-theme=light] .pv-si mark{background:rgba(160,114,0,.14);color:#92690a}',
     '.pv-search-empty{padding:16px 14px;font-size:.8rem;color:#6b7d93;text-align:center}',
-    /* mobile — keep search box in flow; dropdown positioned via positionDD() */
-    '@media(max-width:640px){#pv-search-wrap{flex:1;min-width:0;margin-left:4px}#pv-search-box{width:100%!important;height:40px;box-sizing:border-box}}',
+    /* mobile — CSS !important forces dropdown to full width regardless of JS */
+    '@media(max-width:640px){#pv-search-wrap{flex:1;min-width:0;margin-left:4px}#pv-search-box{width:100%!important;height:40px;box-sizing:border-box}#pv-search-dd{left:8px!important;right:8px!important;width:auto!important}}',
   ].join('');
   document.head.appendChild(style);
 
@@ -249,13 +249,8 @@
     var rect = box.getBoundingClientRect();
     var vw = window.innerWidth;
     dd.style.top = (rect.bottom + 6) + 'px';
-    // Phone detection: screen.width <= 500 covers all iPhones/Androids reliably
-    var isPhone = window.screen.width <= 500 || vw <= 640;
-    if (isPhone) {
-      dd.style.left  = '8px';
-      dd.style.right = '8px';
-      dd.style.width = 'auto';
-    } else {
+    // Desktop only: align right edge to search box. Mobile handled by CSS !important.
+    if (window.screen.width > 500 && vw > 640) {
       dd.style.left  = 'auto';
       dd.style.right = Math.max(8, vw - rect.right) + 'px';
       dd.style.width = '320px';
