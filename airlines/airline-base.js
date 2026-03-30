@@ -4,8 +4,6 @@
 
 /* Load global search */
 (function(){var s=document.createElement('script');s.src='../search.js';document.head.appendChild(s);})();
-/* Load lang */
-(function(){var s=document.createElement('script');s.src='../lang.js';document.head.appendChild(s);})();
 
 (function(){
 
@@ -1035,14 +1033,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     var lastChild = navRight.lastElementChild;
     navRight.insertBefore(authBtn, lastChild);
-
-    // ── Language switcher injection ─────────────────
-    setTimeout(function() {
-      if (typeof pvInjectLangSwitcher === 'function') {
-        pvInjectLangSwitcher(navRight);
-        pvApplyTranslations();
-      }
-    }, 50);
   }
 
   // Inject tab nav

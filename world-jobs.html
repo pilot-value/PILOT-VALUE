@@ -155,10 +155,10 @@
   <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-[68px]">
     <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img"/></a>
     <div class="hidden md:flex items-center gap-7">
-      <a href="index.html#compare" class="nav-link" data-i18n="nav.compare">日本 vs 海外</a>
-      <a href="index.html#ranking" class="nav-link" data-i18n="nav.ranking">機長ランキング</a>
-      <a href="index.html#jobs"    class="nav-link" data-i18n="nav.jobs">求人情報</a>
-      <a href="world-jobs.html"    class="nav-link" data-i18n="nav.world-jobs" style="color:#f5c842">世界の求人</a>
+      <a href="index.html#compare" class="nav-link">日本 vs 海外</a>
+      <a href="index.html#ranking" class="nav-link">機長ランキング</a>
+      <a href="index.html#jobs"    class="nav-link">求人情報</a>
+      <a href="world-jobs.html"    class="nav-link" style="color:#f5c842">世界の求人</a>
       <a href="community.html"     class="nav-link">最新の口コミ</a>
     </div>
     <a href="index.html" class="btn-ghost text-sm py-2 px-4">← トップへ</a>
@@ -636,15 +636,5 @@ document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
 setTimeout(()=>{document.querySelectorAll('.fade-up:not(.visible)').forEach(el=>el.classList.add('visible'));},300);
 </script>
 <script src="search.js"></script>
-<script src="lang.js"></script>
-<script>
-(function(){
-  var navRight = document.querySelector('#main-nav .flex.items-center.gap-3');
-  if (navRight && typeof pvInjectLangSwitcher === 'function') pvInjectLangSwitcher(navRight);
-  document.addEventListener('DOMContentLoaded', function(){
-    if (typeof pvApplyTranslations === 'function') pvApplyTranslations();
-  });
-})();
-</script>
 </body>
 </html>

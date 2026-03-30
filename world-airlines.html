@@ -205,10 +205,10 @@ footer{background:#060809;border-top:1px solid rgba(255,255,255,.05)}
   <div class="max-w-7xl mx-auto px-5 flex items-center justify-between h-[70px]">
     <a href="index.html"><img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img"/></a>
     <div class="hidden md:flex items-center gap-7">
-      <a href="index.html#compare"  class="nav-link" data-i18n="nav.compare">日本 vs 海外</a>
-      <a href="index.html#ranking"  class="nav-link" data-i18n="nav.ranking">年収ランキング</a>
-      <a href="world-airlines.html" class="nav-link" data-i18n="nav.world" style="color:rgba(245,200,66,.85)">世界の航空会社一覧</a>
-      <a href="world-jobs.html"     class="nav-link" data-i18n="nav.jobs">求人情報</a>
+      <a href="index.html#compare"  class="nav-link">日本 vs 海外</a>
+      <a href="index.html#ranking"  class="nav-link">年収ランキング</a>
+      <a href="world-airlines.html" class="nav-link" style="color:rgba(245,200,66,.85)">世界の航空会社一覧</a>
+      <a href="world-jobs.html"     class="nav-link">求人情報</a>
       <a href="community.html"      class="nav-link">最新の口コミ</a>
     </div>
     <div class="flex items-center gap-3">
@@ -901,15 +901,5 @@ applyThemeW(localStorage.getItem('pv-theme')||'dark');
 (function(){try{var u=JSON.parse(localStorage.getItem('pv_user')||'null');var b=document.getElementById('nav-auth-btn');if(!b)return;if(u&&u.name){b.textContent=u.name.replace(/[\s　].*/,'');b.href='profile.html';b.style.color='#f5c842';b.style.fontWeight='700';}}catch(e){}})();
 </script>
 <script src="search.js"></script>
-<script src="lang.js"></script>
-<script>
-(function(){
-  var navRight = document.querySelector('#main-nav .flex.items-center.gap-3');
-  if (navRight && typeof pvInjectLangSwitcher === 'function') pvInjectLangSwitcher(navRight);
-  document.addEventListener('DOMContentLoaded', function(){
-    if (typeof pvApplyTranslations === 'function') pvApplyTranslations();
-  });
-})();
-</script>
 </body>
 </html>
