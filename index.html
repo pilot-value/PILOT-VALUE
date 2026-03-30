@@ -511,11 +511,11 @@
       <img src="baland_ass/ロゴイメージ.png" alt="PILOT VALUE" class="logo-img" />
     </a>
     <div class="hidden md:flex items-center gap-7">
-      <a href="#compare"           class="nav-link">日本 vs 海外</a>
-      <a href="#ranking"           class="nav-link">年収ランキング</a>
-      <a href="world-airlines.html" class="nav-link">世界の航空会社一覧</a>
-      <a href="#jobs"              class="nav-link">求人情報</a>
-      <a href="community.html"     class="nav-link">最新の口コミ</a>
+      <a href="#compare"           class="nav-link" data-i18n="nav.compare">日本 vs 海外</a>
+      <a href="#ranking"           class="nav-link" data-i18n="nav.ranking">年収ランキング</a>
+      <a href="world-airlines.html" class="nav-link" data-i18n="nav.world">世界の航空会社一覧</a>
+      <a href="#jobs"              class="nav-link" data-i18n="nav.jobs">求人情報</a>
+      <a href="community.html"     class="nav-link" data-i18n="nav.community">最新の口コミ</a>
     </div>
     <div class="flex items-center gap-3">
       <button id="theme-toggle" class="theme-toggle" aria-label="ダーク/ライト切替"></button>
@@ -1667,5 +1667,17 @@ applyTheme(localStorage.getItem('pv-theme') || 'dark');
 </script>
 
 <script src="search.js"></script>
+<script src="lang.js"></script>
+<script>
+(function(){
+  var navRight = document.querySelector('#main-nav .flex.items-center.gap-3');
+  if (navRight && typeof pvInjectLangSwitcher === 'function') {
+    pvInjectLangSwitcher(navRight);
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    if (typeof pvApplyTranslations === 'function') pvApplyTranslations();
+  });
+})();
+</script>
 </body>
 </html>
