@@ -45,8 +45,8 @@
     btn.className = 'lang-toggle';
     btn.setAttribute('aria-label', isEN ? 'Switch to Japanese' : 'Switch to English');
     btn.innerHTML = isEN
-      ? 'JP <span aria-hidden="true" style="font-size:1.05em">🇯🇵</span>'
-      : 'EN <span aria-hidden="true" style="font-size:1.05em">🇺🇸</span>';
+      ? '<span aria-hidden="true" style="font-size:1.05em">🇺🇸</span> EN'
+      : '<span aria-hidden="true" style="font-size:1.05em">🇯🇵</span> JP';
 
     themeBtn.parentNode.insertBefore(btn, themeBtn.nextSibling);
 
