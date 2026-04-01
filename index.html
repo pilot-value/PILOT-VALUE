@@ -566,6 +566,7 @@
     </div>
     <div class="flex items-center gap-3">
       <button id="theme-toggle" class="theme-toggle" aria-label="ダーク/ライト切替"></button>
+      <button id="lang-toggle" class="lang-toggle" onclick="localStorage.setItem('pv-lang','en');location.href='/en/'">EN <span style="font-size:1.05em">🇺🇸</span></button>
       <a id="nav-auth-btn" href="login.html" class="btn-ghost hidden md:inline-flex" style="font-size:.82rem;padding:7px 14px">ログイン</a>
       <a href="community.html" class="btn-primary hidden md:inline-flex py-2 px-5 text-sm" style="background:linear-gradient(135deg,#f5c842,#f97316);color:#000" onclick="var e=localStorage.getItem('pv_unlock_expiry');if(e&&+e>Date.now()){event.preventDefault();location.href='world-airlines.html';}">口コミを見る</a>
     </div>
