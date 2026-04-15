@@ -90,9 +90,11 @@
   <url><loc>https://pilot-value.com/airlines/airx-charter.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/alaska-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/allegiant.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/american.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/american.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/amx.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/ana.html</loc><lastmod>2026-03-30</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+    <url><loc>https://pilot-value.com/airlines/ana-vs-emirates.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/ana-vs-jal.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/ana.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://pilot-value.com/airlines/ana-wings.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/austrian.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/avianca.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -100,19 +102,19 @@
   <url><loc>https://pilot-value.com/airlines/batik-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/breeze-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/british-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://pilot-value.com/airlines/cathay-pacific.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/cathay-pacific.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/china-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/china-eastern.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/china-southern.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/copa-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/daiichi-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/delta.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/delta.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/eagle-jet.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/easyjet.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/egyptair.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/emirates.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://pilot-value.com/airlines/emirates.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://pilot-value.com/airlines/ethiopian-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/etihad.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/etihad.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/eva-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/fda.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/fiji-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -130,7 +132,7 @@
   <url><loc>https://pilot-value.com/airlines/ita-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/j-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/jac.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pilot-value.com/airlines/jal.html</loc><lastmod>2026-03-30</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://pilot-value.com/airlines/jal.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://pilot-value.com/airlines/jetblue.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/jetstar.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/jetstar-japan.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -141,7 +143,7 @@
   <url><loc>https://pilot-value.com/airlines/kuwait-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/latam.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/lot.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/lufthansa.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/lufthansa.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/malaysia-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/norwegian.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/oman-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -150,7 +152,7 @@
   <url><loc>https://pilot-value.com/airlines/philippine-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/porter.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/qantas.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pilot-value.com/airlines/qatar-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/qatar-airways.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/rac.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/riyadh-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/root-aviation.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -162,12 +164,12 @@
   <url><loc>https://pilot-value.com/airlines/scoot.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/shin-central.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/shin-nihon.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/singapore-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/singapore-airlines.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/skymark.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/solairus.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/solaseed.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/south-african-airways.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pilot-value.com/airlines/southwest.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pilot-value.com/airlines/southwest.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/spirit.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/spring-japan.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pilot-value.com/airlines/starflyer.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -178,7 +180,7 @@
   <url><loc>https://pilot-value.com/airlines/toho-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/toki-air.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/turkish-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pilot-value.com/airlines/united.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://pilot-value.com/airlines/united.html</loc><lastmod>2026-04-15</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pilot-value.com/airlines/vietjet.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/vietnam-airlines.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pilot-value.com/airlines/virgin-atlantic.html</loc><lastmod>2026-03-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
