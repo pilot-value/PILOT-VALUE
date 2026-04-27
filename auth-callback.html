@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>ログイン中… | PILOT VALUE</title>
+<style>
+  body{margin:0;background:#0a0c0f;color:#e8edf2;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px}
+  .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#f5c842;border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  p{color:#6b7d93;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="spinner"></div>
+<p>ログイン処理中…</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async function() {
+  const SB_URL = 'https://vzgmnkrggrwtsrpqndsm.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Z21ua3JnZ3J3dHNycHFuZHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzkwOTcsImV4cCI6MjA5MDAxNTA5N30.wE4cJbqeYGCgn5ZvHd80hYWgQuySKvOMJMbsJWOvmtw';
+  const sb = supabase.createClient(SB_URL, SB_KEY, {
+    auth: { flowType: 'pkce', detectSessionInUrl: true }
+  });
+
+  try {
+    const { data: { session }, error } = await sb.auth.getSession();
+    if (session) {
+      const u = session.user;
+      const name = u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0];
+      localStorage.setItem('pv_user', JSON.stringify({ id: u.id, email: u.email, name }));
+      window.location.replace('profile.html');
+    } else {
+      // エラー or セッションなし → ログインに戻す
+      window.location.replace('login.html?error=1');
+    }
+  } catch(e) {
+    console.error(e);
+    window.location.replace('login.html?error=1');
+  }
+})();
+</script>
+</body>
+</html>
