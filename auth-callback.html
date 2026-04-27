@@ -23,55 +23,6 @@
   const SB_URL = 'https://vzgmnkrggrwtsrpqndsm.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Z21ua3JnZ3J3dHNycHFuZHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzkwOTcsImV4cCI6MjA5MDAxNTA5N30.wE4cJbqeYGCgn5ZvHd80hYWgQuySKvOMJMbsJWOvmtw';
 
-  // URLにエラーパラメータがあれば即エラー表示
-  const params = new URLSearchParams(location.search);
-  const hashParams = new URLSearchParams(location.hash.slice(1));
-  const urlError = params.get('error') || hashParams.get('error');
-  const urlErrorDesc = params.get('error_description') || hashParams.get('error_description');
-  if (urlError) {
-    showError('Google側エラー: ' + urlError + (urlErrorDesc ? ' — ' + urlErrorDesc : ''));
-    return;
-  }
-
-  const sb = supabase.createClient(SB_URL, SB_KEY, {
-    auth: { flowType: 'pkce', detectSessionInUrl: true }
-  });
-
-  // タイムアウト（15秒）
-  const timer = setTimeout(() => {
-    showError('タイムアウト: セッション確立に失敗しました。Supabaseのリダイレクト設定を確認してください。');
-  }, 15000);
-
-  // onAuthStateChange で SIGNED_IN を待つ（getSession()より確実）
-  const { data: { subscription } } = sb.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-      clearTimeout(timer);
-      subscription.unsubscribe();
-      const u = session.user;
-      const name = u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0];
-      const userData = { id: u.id, email: u.email, name };
-      localStorage.setItem('pv_user', JSON.stringify(userData));
-
-      // 口コミ投稿済み確認
-      try {
-        const { data: revs } = await sb.from('reviews').select('id').eq('user_id', u.id).limit(1);
-        if (revs?.length) localStorage.setItem('pv_unlock_expiry', (Date.now()+30*24*60*60*1000).toString());
-      } catch(e) {}
-
-      window.location.replace('profile.html');
-
-    } else if (event === 'INITIAL_SESSION' && !session) {
-      // セッションなし — URLのcodeを確認
-      const code = params.get('code');
-      if (!code) {
-        clearTimeout(timer);
-        subscription.unsubscribe();
-        showError('認証コードが見つかりません。もう一度ログインを試してください。');
-      }
-      // codeがあればSDKが処理中 → タイムアウトを待つ
-    }
-  });
-
   function showError(msg) {
     document.querySelector('.spinner').style.display = 'none';
     document.getElementById('msg').textContent = 'ログインに失敗しました';
@@ -80,6 +31,46 @@
     d.style.display = 'block';
     setTimeout(() => { window.location.replace('login.html?error=1'); }, 4000);
   }
+
+  // URLにGoogleからのエラーがあれば即表示
+  const params = new URLSearchParams(location.search);
+  const urlError = params.get('error');
+  if (urlError) {
+    showError('エラー: ' + urlError + ' — ' + (params.get('error_description') || ''));
+    return;
+  }
+
+  // codeがなければエラー
+  const code = params.get('code');
+  if (!code) {
+    showError('認証コードが見つかりません。もう一度ログインしてください。');
+    return;
+  }
+
+  const sb = supabase.createClient(SB_URL, SB_KEY, {
+    auth: { flowType: 'pkce', detectSessionInUrl: false }
+  });
+
+  // 明示的にコード交換（PKCEの推奨方式）
+  const { data, error } = await sb.auth.exchangeCodeForSession(window.location.href);
+
+  if (error || !data.session) {
+    showError((error?.message || 'セッション確立に失敗しました') + '\n\nもう一度Googleログインを試してください。');
+    return;
+  }
+
+  const u = data.session.user;
+  const name = u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0];
+  const userData = { id: u.id, email: u.email, name };
+  localStorage.setItem('pv_user', JSON.stringify(userData));
+
+  // 口コミ投稿済み確認
+  try {
+    const { data: revs } = await sb.from('reviews').select('id').eq('user_id', u.id).limit(1);
+    if (revs?.length) localStorage.setItem('pv_unlock_expiry', (Date.now()+30*24*60*60*1000).toString());
+  } catch(e) {}
+
+  window.location.replace('profile.html');
 })();
 </script>
 </body>
