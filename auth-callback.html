@@ -9,35 +9,76 @@
   body{margin:0;background:#0a0c0f;color:#e8edf2;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px}
   .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#f5c842;border-radius:50%;animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  p{color:#6b7d93;font-size:.9rem}
+  p{color:#6b7d93;font-size:.9rem;text-align:center;max-width:320px}
+  #debug{font-size:.72rem;color:#f87171;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:10px 14px;max-width:400px;display:none;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="spinner"></div>
-<p>ログイン処理中…</p>
+<p id="msg">ログイン処理中…</p>
+<div id="debug"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (async function() {
   const SB_URL = 'https://vzgmnkrggrwtsrpqndsm.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6Z21ua3JnZ3J3dHNycHFuZHNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MzkwOTcsImV4cCI6MjA5MDAxNTA5N30.wE4cJbqeYGCgn5ZvHd80hYWgQuySKvOMJMbsJWOvmtw';
+
+  // URLにエラーパラメータがあれば即エラー表示
+  const params = new URLSearchParams(location.search);
+  const hashParams = new URLSearchParams(location.hash.slice(1));
+  const urlError = params.get('error') || hashParams.get('error');
+  const urlErrorDesc = params.get('error_description') || hashParams.get('error_description');
+  if (urlError) {
+    showError('Google側エラー: ' + urlError + (urlErrorDesc ? ' — ' + urlErrorDesc : ''));
+    return;
+  }
+
   const sb = supabase.createClient(SB_URL, SB_KEY, {
     auth: { flowType: 'pkce', detectSessionInUrl: true }
   });
 
-  try {
-    const { data: { session }, error } = await sb.auth.getSession();
-    if (session) {
+  // タイムアウト（15秒）
+  const timer = setTimeout(() => {
+    showError('タイムアウト: セッション確立に失敗しました。Supabaseのリダイレクト設定を確認してください。');
+  }, 15000);
+
+  // onAuthStateChange で SIGNED_IN を待つ（getSession()より確実）
+  const { data: { subscription } } = sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      clearTimeout(timer);
+      subscription.unsubscribe();
       const u = session.user;
       const name = u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0];
-      localStorage.setItem('pv_user', JSON.stringify({ id: u.id, email: u.email, name }));
+      const userData = { id: u.id, email: u.email, name };
+      localStorage.setItem('pv_user', JSON.stringify(userData));
+
+      // 口コミ投稿済み確認
+      try {
+        const { data: revs } = await sb.from('reviews').select('id').eq('user_id', u.id).limit(1);
+        if (revs?.length) localStorage.setItem('pv_unlock_expiry', (Date.now()+30*24*60*60*1000).toString());
+      } catch(e) {}
+
       window.location.replace('profile.html');
-    } else {
-      // エラー or セッションなし → ログインに戻す
-      window.location.replace('login.html?error=1');
+
+    } else if (event === 'INITIAL_SESSION' && !session) {
+      // セッションなし — URLのcodeを確認
+      const code = params.get('code');
+      if (!code) {
+        clearTimeout(timer);
+        subscription.unsubscribe();
+        showError('認証コードが見つかりません。もう一度ログインを試してください。');
+      }
+      // codeがあればSDKが処理中 → タイムアウトを待つ
     }
-  } catch(e) {
-    console.error(e);
-    window.location.replace('login.html?error=1');
+  });
+
+  function showError(msg) {
+    document.querySelector('.spinner').style.display = 'none';
+    document.getElementById('msg').textContent = 'ログインに失敗しました';
+    const d = document.getElementById('debug');
+    d.textContent = msg;
+    d.style.display = 'block';
+    setTimeout(() => { window.location.replace('login.html?error=1'); }, 4000);
   }
 })();
 </script>
